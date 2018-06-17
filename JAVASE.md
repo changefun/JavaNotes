@@ -715,3 +715,5 @@ public static void main(String[] agrs){
 - __j__ s调用study()时，study()从方法区中压进栈内存中。
 - __k__ study()中隐藏着一个变量this，s调用study()方法时就将堆内存中的实体的地址赋予给this。study()方法就可以凭着地址去堆内存中找数据和操作数据。
 - study()操作完后出栈。
+
+[参考链接](https://www.cnblogs.com/wxw7blog/p/7349204.html)
