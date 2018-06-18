@@ -30,7 +30,7 @@ class MemberVariables{
         System.out.println("byte成员变量默认值："+this.b);
         System.out.println("short成员变量默认值："+this.s);
         System.out.println("booleam成员变量默认值："+this.bl);
-        System.out.println("long成员变量默认值："+this.l);
+        System.out.println("long成员变量默认值："+l);
         System.out.println("float成员变量默认值："+this.f);
         System.out.println("double成员变量默认值："+this.d);
         System.out.println("char成员变量默认值："+this.c);
@@ -48,6 +48,13 @@ class ObjectAsArgument{
 
 }
 
+class BuildFunction{
+    public BuildFunction(int age){
+        System.out.println(age);
+        return;
+    }
+}
+
 public class OOP {
 
     public static void main(String[] args){
@@ -62,17 +69,10 @@ public class OOP {
         MemberVariables m = new MemberVariables();
         m.functionVandMv();*/
 
-        ObjectAsArgument oaa = new ObjectAsArgument();
-        System.out.println(oaa);
-        System.out.println(oaa.name);
 
-        changeObject(oaa);
-        System.out.println(oaa);
-        System.out.println(oaa.name);
+        //BuildFunction b = new BuildFunction();
     }
 
 
-    public static void changeObject(ObjectAsArgument oaa){
-        oaa.name = "张三";
-    }
+
 }
