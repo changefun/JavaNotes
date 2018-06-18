@@ -806,3 +806,23 @@ public class {
     - 隐藏实现细节
     - 复用性高
     - 安全性高
+### this关键字
+> 对象本身的引用
+    
+        创建对象后，对象调用成员方法时，例如student.study(),study()方法有个隐藏的this，student对象调用的时候会将对象实体内存地址告诉study()中的this，study()方法就可以凭地址去找堆内存的对象实体进行操作。
+
+> 用于区分成员方法的形参名和成员变量名。
+```java
+Student student = new Student();
+student.setName("张三");
+
+...
+
+private String name;    // 成员变量
+
+public void setName(String name){ // 形参（方法的局部变量）
+    name = name; // 形参名和成员变量名相同了
+    // 两者名称相同时会导致赋值成员变量失败，因为当成员变量和局部变量同名时，方法内部采取就近原则，先采用局部变量。所以上面的结果是 成员变量name还是null，并没有赋值。
+    
+}
+```
