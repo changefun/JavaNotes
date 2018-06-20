@@ -12,16 +12,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OOPApp.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/OOPApp.java">
+      <file leaf-file-name="Extends.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Extends.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+            <state relative-caret-position="186">
+              <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
               <folding>
-                <element signature="e#622#623#0" expanded="true" />
-                <element signature="e#694#695#0" expanded="true" />
-                <element signature="e#737#738#0" expanded="true" />
-                <element signature="e#783#784#0" expanded="true" />
+                <element signature="e#65#66#0" expanded="true" />
+                <element signature="e#93#94#0" expanded="true" />
+                <element signature="e#179#180#0" expanded="true" />
+                <element signature="e#215#216#0" expanded="true" />
+                <element signature="e#264#265#0" expanded="true" />
+                <element signature="e#300#301#0" expanded="true" />
+                <element signature="e#379#380#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -41,6 +44,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/OOP.java" />
         <option value="$PROJECT_DIR$/src/OOPApp.java" />
+        <option value="$PROJECT_DIR$/src/GuessNumber.java" />
+        <option value="$PROJECT_DIR$/src/Extends.java" />
       </list>
     </option>
   </component>
@@ -54,8 +59,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="-113" />
-    <option name="y" value="109" />
+    <option name="x" value="-156" />
+    <option name="y" value="241" />
     <option name="width" value="1336" />
     <option name="height" value="698" />
   </component>
@@ -80,17 +85,18 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.updates" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -104,7 +110,17 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.OOPApp">
+  <component name="RunManager" selected="Application.Extends">
+    <configuration name="Extends" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Extends" />
+      <module name="面向对象" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="GuessNumber" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GuessNumber" />
+      <module name="面向对象" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
     <configuration name="OOP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="OOP" />
       <module name="面向对象" />
@@ -159,9 +175,13 @@
     <list>
       <item itemvalue="Application.OOP" />
       <item itemvalue="Application.OOPApp" />
+      <item itemvalue="Application.GuessNumber" />
+      <item itemvalue="Application.Extends" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Extends" />
+        <item itemvalue="Application.GuessNumber" />
         <item itemvalue="Application.OOPApp" />
         <item itemvalue="Application.OOP" />
       </list>
@@ -178,20 +198,22 @@
       <option name="presentableId" value="Default" />
       <updated>1529222427291</updated>
       <workItem from="1529222431615" duration="2833000" />
-      <workItem from="1529282584722" duration="8327000" />
+      <workItem from="1529282584722" duration="8762000" />
+      <workItem from="1529414348020" duration="3106000" />
+      <workItem from="1529476595310" duration="1247000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11160000" />
+    <option name="totallyTimeSpent" value="15948000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-113" y="109" width="1336" height="698" extended-state="1" />
+    <frame x="-156" y="241" width="1336" height="698" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32922536" />
+      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.3274648" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -199,11 +221,11 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32922536" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.37188613" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25386998" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2616099" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -226,6 +248,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/OOPApp.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/OOP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -242,13 +267,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/OOPApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+        <state relative-caret-position="328">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GuessNumber.java" />
+    <entry file="file://$PROJECT_DIR$/src/Extends.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
           <folding>
-            <element signature="e#622#623#0" expanded="true" />
-            <element signature="e#694#695#0" expanded="true" />
-            <element signature="e#737#738#0" expanded="true" />
-            <element signature="e#783#784#0" expanded="true" />
+            <element signature="e#65#66#0" expanded="true" />
+            <element signature="e#93#94#0" expanded="true" />
+            <element signature="e#179#180#0" expanded="true" />
+            <element signature="e#215#216#0" expanded="true" />
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#300#301#0" expanded="true" />
+            <element signature="e#379#380#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -44,7 +44,7 @@ class Args{
 public class OOPApp {
     public static void main(String[] args){
         Args args1 = new Args(1,2,3,4);
-        
+
 
     }
 }
