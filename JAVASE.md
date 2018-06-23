@@ -717,34 +717,25 @@ public static void main(String[] agrs){
     ```
 - __e__ 执行到new Student()时，类加载器将Student.class文件载入JVM内存方法区中，static静态变量也进行了默认初始化：
     ```java
-    Student student1 = new Student();// 从方法区中找到Student类信息，然后在堆内存中申请一块空间，并依照这些类信息实例化出实体，里面存储的是对象属性，然后进行初始化工作三部曲。
+    Student student1 = new Student();// 从方法区中找到Student类信息，然后在堆内存中申请一块空间，并依照这些类信息实例化出实体，里面存储的是对象属性，然后进行初始化工作。
     ```
 - __f__ 这里还有一步，如果有static关键字修饰的静态变量显式赋值的话，在第一次实例化对象时就显式初始化静态变量。由于对象实体是根据类信息（在方法区）来构建，所以可以找到静态变量的地址，从而对它赋值，完成显式初始化：
     ```java
     private static String school = "九小"; // 类的第一次实例化时，就对静态变量显式初始化，这时在方法区的静态区的静态变量从null变成“九小”。
     ```
-- __g__ 默认初始化即null（String)、0（整型）、false（boolean）、0.0（浮点型）、\u0000（char).
-- __h__ 显式初始化即赋值给对象属性：
+- __g__ 默认初始化：jvm先根据数据类型申请相应空间的内存，并将这空间置零（默认初始化）。
+- __h__ （如果已经手动赋值）显式初始化即赋值给对象属性：
     ```java
     class Student{
         // 创建对象时的显式初始化
         private String name = "张三";
     }
     ```
-- __g__ 调用构造函数初始化时，构造函数进栈，完成工作后出栈。
-    ```java
-    class Student{
-        private String name;
-
-        public Student(String name){
-            this.name = name; // 构造方法初始化
-        }
-    }
-    ```
-- __h__ 所有初始化完成后，返回地址给变量（局部的）Student s。
-- __i__ 局部变量 s 指向的是对象的地址，通过地址可以直接操作在堆内存中的对象属性：s.name="张三";
-- __j__ s调用study()时，study()从方法区中压进栈内存中。
-- __k__ study()中隐藏着一个变量this，s调用study()方法时就将堆内存中的实体的地址赋予给this。study()方法就可以凭着地址去堆内存中找数据和操作数据。
+- __i__ 调用构造函数初始化时，构造函数进栈，完成工作后出栈。
+- __j__ 所有初始化完成后，返回地址给变量（局部的）Student s。
+- __k__ 局部变量 s 指向的是对象的地址，通过地址可以直接操作在堆内存中的对象属性：s.name="张三";
+- __l__ s调用study()时，study()从方法区中压进栈内存中。
+- __n__ study()中隐藏着一个变量this，s调用study()方法时就将堆内存中的实体的地址赋予给this。study()方法就可以凭着地址去堆内存中找数据和操作数据。
 - study()操作完后出栈。
 
 [参考链接](https://www.cnblogs.com/wxw7blog/p/7349204.html)
@@ -1050,7 +1041,28 @@ public class Main{
         }
     }
     ```
-- __每次创建对象都会执行，而且比构造方法先执行。__
+- __每次创建对象都会执行。JVM会先将代码块的语句移到构造方法里，并放在构造方法原来的代码前按顺序执行：__
+    ```java
+    class A{
+        {
+            System.out.println("我是构造代码块，我会被JVM放进构造方法里执行");
+        }
+
+        public A(){
+            System.out.println("我是构造方法");
+        }
+    }
+    等价于
+    class A{
+        
+        public A(){
+            System.out.println("我是构造代码块，我会被JVM放进构造方法里执行");
+            System.out.println("我是构造方法");
+        }
+    }
+
+    ```
+    <font color="yellow">注意：成员变量的初始化工作也被JVM移到构造方法内执行哦！</font>
 
 #### 静态代码块
 - 在类之中在方法之外；以static修饰。首次实例化对象时，优先于构造方法执行，如果还有其它静态变量，则看谁在上谁先执行。并且只执行一次，无论创建多少次对象：
@@ -1073,6 +1085,18 @@ public class Main{
 <br>
 
 ### 继承
+> 类如果没有用extends关键字继承任何类，它默认都是继承Object类，Object类是最顶类：
+```java
+class A {
+    ....
+}
+等价于
+class A extends Object{
+    ...
+}
+```
+> 实例化对象时，会先调用父类的构造方法对父类中的数据进行初始化赋值，然后才能让子类可以继承父类的数据并使用这些数据。
+
 - 继承的好处
     - 提高代码的复用性
     - 提高代码的维护性
@@ -1082,13 +1106,19 @@ public class Main{
         - 耦合：两者之间的关系
         - 内聚：个体可以自身单独完成功能
 
+<br>
+
 #### JAVA继承的特点
 - 只支持单继承。（一个子类只能继承一个父类）
 - 支持多层继承（形成继承体系）
 
+<br>
+
 #### JAVA继承注意事项
 - 子类只能继承父类的非私有成员（非private修饰）
 - 子类不能继承父类的构造方法，但可通过 super 关键字来访问。
+
+<br>
 
 #### 关于继承中的构造方法
 - 子类在实例化对象时，无论调用该子类中的任何构造方法，都会先调用父类的无参构造方法。但如果父类已经存在有参构造方法（即意味着JVM将不提供默认无参构造方法），又不手动给父类提供无参构造方法，编译会出错：
@@ -1132,11 +1162,16 @@ public class Main{
     */
     ```
     疑惑：默认无参构造方法是用来给成员变量默认赋值的，那如果类没有成员变脸呢?
+
     - 为什么都会访问到父类的默认无参构造方法？
         - 因为子类继承了父类的可继承数据，也可能会使用到继承下来的数据，所以要想使用父类的数据就要初始化这些数据。
 
+<br>
+
 #### 父类和子类的成员变量关系
 - 如果父类和子类有相同的成员变量，则优先使用子类的成员变量。
+
+<br>
 
 #### this和super
 - 调用成员（成员变量和成员方法）
@@ -1148,3 +1183,599 @@ public class Main{
     - this(...) 调用本类的构造方法
     - super(...) 调用父类的构造方法
 
+- 如果父类没有无参构造方法，就调用他的有参构造方法
+    - super
+    ```java
+    class A{
+        public A(String name){
+            // xxx
+        }
+    }
+
+    class B extends A{
+        public B(){
+            super("张三"); // 必须放在第一句
+            ...
+        }
+    }
+    ```
+    - this
+    ```java
+    class A{
+        public A(String name){
+            ...
+        }
+    }
+
+    class B extends A{
+        public B(){
+            this("张三"); // 必须放在第一句
+        }
+
+        public B(String name){
+            super(name);
+        }
+    }
+    ```
+
+<br>
+
+#### 继承面试题
+```java
+main(){
+    Zi z = new Zi();
+    // 执行结果？
+}
+
+class Fu{
+    static {
+        System.out.println("Fu静态代码块");
+    }
+
+    {
+        System.out.println("Fu构造代码块");
+    }
+
+    public Fu(){
+        System.out.println("Fu 构造方法");
+    }
+}
+class Zi extends Fu{
+    static{
+        System.out.println("Zi 静态代码块");
+    }
+
+    {
+        System.out.println("Zi 构造代码块");
+    }
+
+    public Zi(){
+        System.out.println("Zi 构造方法");
+    }
+}
+/*
+输出结果：
+    Fu静态代码块
+    Zi静态代码块
+    Fu构造代码块
+    Fu 构造方法
+    Zi 构造代码块
+    Zi 构造方法
+*/
+```
+- 步骤
+    - 实例化对象时，先将父类.class加载进来，静态代码块随着加载。输出 [Fu静态代码块]
+    - 然后加载子类.class，子类的静态代码块随着加载，输出 [Zi静态代码块]
+    - 然后进入子类的构造方法内，迎头撞来的是父类的构造方法（super()）。
+    - 进入父类的构造方法，但JVM会先将构造代码块里的代码和成员变量（如果有）放进父类构造方法里原代码的前面执行，输出[Fu构造代码块]。
+    - 执行完构造代码块的代码，接着轮到父类构造方法原本的代码，输出[Fu 构造方法]。至此，父类的初始化工作全部完成，子类可以愉快地使用父类的数据了。
+    - 执行完父类的构造方法，就轮到子类了，JVM照样将子类的构造代码块的代码和成员变量（如果有）放进子类构造方法里的原代码前面，输出[Zi 构造代码块]。
+    - 子类构造代码块的语句执行完，顺序轮到子类构造方法原来的语句，输出[Zi 构造方法]。至此子类的所有初始化工作也完成了。
+
+<br/>
+
+#### 方法的重写
+> 子类和父类有相同名称的方法，称方法重写
+- 注意事项
+    - 子类不能重写父类的私有方法
+        - 因为根本无法继承父类的私有方法，何来重写。
+    - 子类重写父类的方法，权限不能比父类的方法低，最好一致。
+        - 因为继承是为了扩展父类的功能，实现比父类更加强大，如果降低权限，使用起来就不方便，何不直接使用父类的方法。
+    - 父类的静态成员只能由子类的静态成员覆盖，非静态成员无法覆盖父类的静态成员。（是覆盖，不是重写）
+    - 子类重写父类方法，必须返回值类型一致。
+
+- 方法重写的面试题
+    - 方法重写（Override）和方法重载（Overload）的区别。
+        - 方法重载可以改变返回值类型
+            - 因为方法重载只跟参数列表有关
+        - 方法重写一般不可以改变返回值类型，同父类一致返回类型。
+    - 子类调用方法的时候
+        - 先找子类本身，再找父类。
+
+<br>
+
+### final关键字
+- 特点
+    - 修饰类，类不能被继承
+        ```java
+        final class Student{...}
+        ```
+    - 修饰变量，变量变常量，只能被赋值一次
+        - 必须被显式赋值
+        - 一般和public static配合使用。
+        ```java
+        public static final String NAME = "123";
+        ```
+    - 修饰方法，方法不能重写
+        ```java
+        public final void print(){...}
+        ```
+    - 修饰引用数据类型，地址值不可被改变，但还能操作对象属性。
+        ```java
+        final Persion p = new Persion();
+        p = new Persion(); // 报错，不可改变地址值
+        p.seteName("张三");// 可以操作对象属性
+        ```
+    - 修饰方法参数列表：
+        ```java
+        public void method(final int x){
+            ...
+        }
+        method(10); // 执行完弹栈，局部变量随之消失
+        method(20); // 在次调用，新的方法进栈
+        /*
+        输出：
+            10
+            20
+        因为方法使用完弹栈，局部变量消失，这时就可以重新给x赋值，意义不大。
+        */
+        ```
+- final修饰变量的初始化时机
+    - 显式初始化
+        ```java
+        class Demo{
+            final int num = 1;
+            // final int num; 默认值无效
+        }
+        ```
+    - 对象构造完毕前
+        ```java
+        class Demo{
+            final int num;
+
+            public Demo(){
+                this.num = 1; // 这里初始化
+            }
+        }
+        ```
+
+<br>
+
+### 多态
+- 前提
+    - 有继承关系
+    - 有方法重写
+    - 有父类引用指向子类对象（动态链接/绑定）
+        ```java
+        main(){
+            Cat cat = new Cat(); // 猫是猫
+            Animal cat = new Cat(); // 父类引用指向子类对象（猫是动物）
+        }
+
+        class Animal{
+            public void eat(){
+                System.out.println("动物吃饭");
+            }
+        }
+        class Cat extends Animal{ // 继承关系
+            public void eat(){    // 方法重写
+                System.out.println("猫吃饭");
+            }
+        }
+        ```
+- 总结（非静态成员）
+    - 如果使用父类类型的引用指向子类的对象：
+        - 则这个引用只能调用父类中定义的方法和变量，还有子类重写父类的方法。（动态绑定）
+        - 若子类中重写了父类中的一个方法，那么调用这个方法的时候，将会调用子类重写后的方法。
+        - 父类的变量不能被重写（覆盖），因为“重写”的概念只针对方法。
+        - 若想调用子类自己的方法或变量（父类并没有），则需要强制转换为子类引用。
+            ```java
+            Animal cat = new Cat();
+            ((Cat)cat).method();// 该方法父类没有
+            ((Cat)cat).name;// 该变量父类没有
+            ```
+        - 若在子类重写父类的方法（参数列表发生变化），这就相当于新的子类方法，和父类同名的方法没有关系，所以需要转换为子类引用才能调用。
+            ```java
+            main(){
+                Animal cat = new Animal();
+                cat.eat();// 调用的是父类的方法
+                (Cat(cat)).eat("鱼"); // 调用子类的方法
+                /*
+                输出：
+                    吃东西
+                    猫吃鱼
+                */
+            }
+
+
+            class Animal{
+                public void eat(){
+                    System.out.println("吃东西");
+                }
+            }
+
+            class Cat extends Animal{
+                public void eat(String foot){
+                    System.out.println("猫吃"+foot);
+                }
+            }
+            ```
+- 多态中的静态成员
+    - 父类类型引用指向子类对象：
+        - 无法调用子类重写父类的静态方法，只调用了父类的静态方法（和非静态方法的不同）。
+            ```java
+            Product pc = new PC();
+            pc.use();// 实际是Product.use()
+            PC pc1 = new PC();
+            pc1.use(); // PC.use()
+            ```
+        - 调用静态变量也一样，父类类型引用则[父类.静态变量]；子类类型引用则[子类.静态变量].
+
+#### 多态的优缺点
+- 优点
+    - 提供代码维护性（继承前提）
+    - 增强代码扩展性（父类类型引用指向子类对象）
+        - 在参数列表方面表现，作为形参，可以接受任意子类对象：
+        ```java
+        main(){
+            method(new B()); // 父类引用可以接受任意子类对象
+            method(new C());
+        }
+        public void method(A abc){
+            // instanceof 关键字可以判断引用是否和对象类型一样
+            if(abc instanceof B){
+                B b = (B)abc; // 如果传入的对象是B类型，就强制转换为B类型，这样就可以调用他特有的方法了。
+            }
+        }
+        ...
+        class A{}
+        class B extends A{}
+        class C extends A{}
+        ```
+- 缺点
+    - 不能调用子类特有的方法
+
+> 关键字 instanceof 用于判断引用是否于对象的类型一样。
+
+#### 多态题目
+```java
+main(){
+    A x = new B();
+    x.show();
+
+    B y = new C();
+    y.show();
+
+    /*
+    输出：
+        爱
+        你
+    */
+
+}
+class A{
+    public void show(){
+        this.show2();
+    }
+    public void show2(){
+        System.out.println("我");
+    }
+}
+
+class B extends A{
+    public void show2(){
+        System.out.println("爱");
+    }
+}
+
+class C extends B{
+    public void show(){
+        super.show();
+    }
+    public void show2(){
+        System.out.println("你");
+    }
+}
+```
+- 步骤：
+    - x.show(), B类对象自己并没有show()，所以不存在重写父类show()事情发生,但是继承下了A的show()，所以A类引用就调用自己的show()。
+    - A中的show()，执行到this.show2(),调用自己的show2(),但show2()被子类重写，所以调用重写后的show2(),输出 爱。
+    - y.show(),C类对象有自己的show(),父类B也有show(),发生重写事件，B类引用调用重写后的show().进入下一步
+    - 调用C重写B的show(),执行super.show(),即调用父类B的show()方法。
+    - 调用B的show()方法，但B自己没有show(),就调用从A继承下来的show().
+    - 调用A的show(),执行到this.show2(),即调用自己的show2(),但这个show2()已经被继承到B，B又被继承到C，同时又重写了show2(),所以调用重写后的show2(),输出 你。
+
+<br>
+
+### 抽象（abstract）
+- 可修饰类，称抽象类
+    ```java
+    abstract class 类名{}
+    ```
+- 可修饰方法，称抽象方法
+    - 没有具体的代码实现，连大括号都没有。
+    ```java
+    public abstract void method();
+    ```
+
+- 特点
+    - __抽象类不一定有抽象方法。__
+    - __有抽象方法的类一定是抽象类或接口__
+    - __抽象类不能实例化对象，但：__
+        - __继承抽象类后，用多态的方式实现具体的子类实例化（抽象类既然不能实例化，但可以作为引用），这就抽象类多态。__
+            ```java
+            main(){
+                Animal cat = new Cat();
+                cat.eat();
+                // 输出 猫吃鱼
+            }
+            ...
+            abstract class Animal{
+                public abstract void eat();
+            }
+
+            class Cat extends Animal{
+                public void eat(){
+                    //猫吃鱼
+                }
+            }
+            ```
+    - __抽象类的子类__
+        - 要么是抽象类
+        - 要么重写抽象父类中的所有抽象方法
+        - 两者如果都满足，则无法实例化，无意义。
+    - 抽象类和普通类一样有成员变量和常量，但不能被abstract修饰，即没有抽象成员变量。
+    - 抽象方法也有构造方法，用于初始化自己的数据，便于被子类使用。
+
+- 抽象类的成员方法特性：
+    - 抽象类中的抽象方法是一定要强制子类进行重写的，要么就是子类变成抽象类。（像太子要想继承皇帝的江山，就必须按照皇帝要求做一些事情，例如读书识字）
+    - 非抽象方法，子类可以原封不动拿来用，也可以在其基础上扩展功能。（太子继承皇位，便起用自己的心腹，或在旧的政策上面做出改进，然后可千世万世）
+#### 面试题
+- 抽象类如果没有抽象方法，可否定义为抽象类？可以则意义何在？
+    - 可以
+    - 目的是不让实例化这个抽象类，而只能由抽象类的子类来实现实例化。
+- __abstract 不能和哪些关键字共存？__
+    - __static静态修饰符__
+        - 因为静态成员方法可以通过[类名.静态方法]的方式调用，
+        - 而abstract修饰的抽象方法不许有方法体，调用无意义。
+    - __final__
+        - 因为final修饰的方法不能被子类重写。
+        - 而abstract修饰的抽象方法，子类必须要重写，两者矛盾。
+    - __private私有修饰符__
+        - 因为private修饰的私有方法不能被子类继承和访问，
+        - 而abstract修饰的抽象方法，必须对子类开放权限并重写，子类无法访问又如何重写。
+
+<br>
+
+### 接口（interface)
+> 接口里的方法全都是抽象的，所以接口也是抽象的
+
+> 广义角度是对外提供规则
+
+#### 格式
+```java
+interface 接口名{} // 定义接口
+
+class B implements 接口名{} // 类实现（应用）接口
+```
+
+- 接口不能实例化
+    - 只能按照多态方法让implements(应用)接口的类来实例化(和抽象类一样)
+        ```java
+        main(){
+            A a = new B(); // 父类引用子类对象
+        }
+
+        interface A{}
+
+        class B implements A{}
+        ```
+#### 接口的成员特点
+- 成员变量
+    - 只能是常量（final）
+        - 系统会自动给成员变量添加final修饰。
+    - 只能是静态（static）
+        - 系统会自动给成员变量添加static修饰。
+    - 只能是公开（public）
+        - 系统会自动给成员变量添加public修饰。
+- 构造方法
+    - 接口没有构造方法
+- 成员方法
+    - 只能是abstract修饰的抽象方法
+        - 系统也会自动加上abstract修饰。
+    - 只能是公开方法
+        - 系统会自动添加public修饰
+> 概括：接口的成员全都是公开的。
+
+#### 类和类，类和接口，接口和接口的关系
+- 类和类
+    - 继承关系
+    - 只能单继承，但可多层继承
+- 类和接口
+    - 实现或应用关系
+    - 类可以实现或应用多个接口（多实现）
+        ```java
+        class A implements B,C,D {}
+        ```
+    - 还可以继承一个类同时实现多个接口
+        ```java
+        class A extends B implements C,D,E {}
+        ```
+- 接口和接口(继承关系)
+    - 接口可以继承接口
+        ```java
+        interface A extends B {}
+        ```
+    - 还可以多继承
+        ```java
+        interface A extends B,C,D {}
+        ```
+    - 继承后需要重写所有抽象方法么？
+        - 不需要，但可以重写。因为大家的方法都是抽象的，不能有方法体，重写没意义。
+
+#### 抽象类和接口的区别
+- 成员变量
+    - 抽象类    
+        - 抽象类有变量和常量（final）
+        - 这些变量和常量可以被public,private,protect修饰。
+        - 可静态也可非静态
+    - 接口
+        - 只有常量
+        - 只能被public修饰
+        - 只能静态static修饰
+- 成员方法
+    - 抽象类
+        - 可以是抽象方法，也可以是非抽象方法。
+    - 接口
+        - 只能全部是抽象方法。
+- 构造方法
+    - 抽象类__有__构造方法
+    - 接口__没有__构造方法
+
+- 设计理念
+    - 抽象类
+        - 抽象类定义的继承体系中的共性功能。
+    - 接口
+        - 接口定义的是继承体系的扩展功能
+            - 实现多个接口，扩展了功能
+
+#### 猫狗案例
+        动物固有的共性：名字，吃饭，睡觉
+        猫被训练跳高
+
+```java
+main(){
+    JumpCat cat = new JumpCat("Tom");
+    cat.eat();
+    cat.sleep();
+    cat.jump();
+}
+
+abstract class Animal{
+    private String name;
+    public Animal(){}
+    public Animal(String name){
+        this.name = name;
+    }
+    // 动物必须吃饭和睡觉，但吃饭睡觉形式众多
+    public abstract void eat();
+    public abstract void sleep();
+}
+
+class Cat extends Animal{
+    public Cat(){}
+    public Cat(String name){
+        super(name);
+    }
+    public void eat(){
+        // 猫吃鱼
+    }
+    public void sleep(){
+        // 猫趴着睡觉
+    }
+}
+
+interface Jump{
+    public abstract void jump(); // 跳高功能
+}
+
+class JumpCat extends Cat implements Jump{
+    public JumpCat(){}
+    public JumpCat(String name){
+        super(name);
+    }
+    public void jump(){
+        // 猫跳高
+    }
+}
+```
+<br>
+
+### 包（package）
+> 实质是文件夹
+#### 格式
+```java
+package 包名; // 必须是程序的第一行可执行语句
+package A.B.C; // 多级包名，用点分开
+```
+- 注意
+    - package语句在一个java文件中只能有一个
+    - 如果不加package，默认表示无包名
+
+#### 编译和运行带包语句的java文件
+
+```java
+// Animal.java
+package A.B.C;
+...
+```
+- 编译
+    - 命令行去到Animal.java文件所在目录
+    - 执行命令
+        - javac -d . Animal.java
+    - 这时会在该目录生成A文件夹，在A文件夹里有B文件夹，在B文件夹里有C文件夹，Animal.class字节码文件旧存在C文件夹里。
+- 运行
+    - 命令行去到Animal.java文件所在目录
+    - 执行命令
+        - java A.B.C.Animal
+    - 不能进入C目录执行该命令，会出现无法找到主类错误。
+    - 必须在和A同路径下执行该命令，或者在哪里执行的编译命令，就在哪里执行运行命令。
+        > 概况：即严格按照package语句所表明的路径进行运行
+#### import导包
+格式：
+```java
+import A.B.C.Animal; // 推荐方案
+import A.B.C.*;// * 号通配符，JVM会到包下搜索，一旦匹配便对调用者可见，但如果包里有较多的类，则效率较低
+```
+> 用import导包，则调用式不用再写全类名。
+- 面试题
+    - package、import和class的顺序关系
+        - package第一，import次之
+
+<br>
+
+#### private、默认、protected和public权限控制
+![权限控制图](权限修饰符_image\权限修饰符说明.png)
+- 无关类即两个类无没有继承关系，平级
+
+__注意__
+- 类只能由public和默认修饰，不能由private和protected修饰除了内部类。
+- 而private和protected用于修饰类内部成员方法和成员变量，还有内部类。
+- > 总之private和protected在类的内部才发挥效果。
+
+<br>
+
+### 内部类
+- 内部类可以直接访问外部类的成员，包括私有
+- 外部类要想访问内部类的成员，必须创建对象。
+    - 外部类名.内部类名 对象名 = 外部类对象.内部类对象;
+        ```java
+        Outer.Inner oi = new Outer().new Inner();
+        ```
+
+#### 使用私有内部类
+```java
+class Outer{
+    private int num = 10;
+    private class Inner{
+        private void method(){
+            System.out.println(num);
+        }
+    }
+
+    public void print(){
+        Inner i = new Inner();
+        i.method();
+    }
+}
+```
