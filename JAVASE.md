@@ -133,6 +133,7 @@ class ScaleTest{
     - 再加1为11011101,这就是-35的补码
 - A减去B = A加(-B)的补码（A、B>0）
 - 反正运算时都得将参与运算的数转换为补码运算，最后结果转回原码，取正负和尾数就是答案。
+
 <br>
 
 ## 数据类型
@@ -159,13 +160,13 @@ __2. 引用数据类型__
 > - 枚举
 
 __3. 数据类型转换_隐式转换__
-> 当空间大的数据类型和较之空间小的数据类型进行运算时，会先将空间小的数据类型转换为空间大的数据类型再进行运算。
+> 当取值范围大的数据类型和较之取值范围小的数据类型进行运算时，会先将小的数据类型转换为大的数据类型再进行运算。
 ```java
 class DataTypeConversionTest{
     public static void main(String args[]){
         int a = 3;
-        byte b = 5;
-        byte c = a + b;
+        byte b = 5;     // 字面常量可以直接被JVM编译时识别，所以可以直接赋值给byte类型
+        byte c = a + b; // 两个不同类型的变量进行运算，JVM编译时不知道运算结果是否超出所赋值的数据类型取值范围（因为运行才知道结果），所以通过报错来阻止可能发生的错误
         System.out.println(c);
         // 发生编译错误：不兼容的类型: 从int转换到byte可能会有损失
     }
@@ -173,9 +174,9 @@ class DataTypeConversionTest{
 ```
 ![数据隐式转换](./datatype_A_3.png)
 
-__4. 数据类型转换_强制转换(高级向低级转换)__
+__4. 数据类型转换_强制转换(取值范围大向取值范围小的转换)__
 
-> 高级类型数据和低级类型数据运算结果为高级类型，如果将结果赋给低级类型声明的值，则需要在前面加(低级类型)来将高级类型数据强制转换为低级类型数据。
+> 取值范围大的类型数据和取值范围小的类型数据运算结果为取值范围大的数据类型，如果将结果赋给范围小的类型声明的值，则需要在前面加“(数据类型)”来将范围大的类型数据强制转换为范围小的类型数据。
 ```java
 class DataTypeConversionForce{
     /*强制转换*/
@@ -211,13 +212,13 @@ void DataTypeConversionForce_2(){
         byte b1 = 3;
         byte b2 = 4;
         /*报错，1、因为3和4是int类型，运算结果也是int。将int数据赋值给byte类型会损失精度
-        * 2、 b1和b2是两个变量，变量储存的值是变化得，编译时无法判断里面具体得值，相加可能会超出byte范围*/
+        * 2、 b1和b2是两个变量，编译时无法判断里面具体的值，要运算才知道结果，相加可能会超出byte范围，所以会报错。*/
         byte b3 = b1 + b2;
 
         /*常量相加*/
         byte b4 = 3 + 4;
         /*不报错，因为java编译器有常量优化机制
-        * 编译时，已知常量3和4,且不再改变，运算得出的结果如果判断超过byte
+        * 编译时，可直接知到常量3和4,且不再改变，运算得出的结果如果判断超过byte
         * 范围，且未进行强制转换，则报错
         * 否则赋值*/
     }
@@ -293,7 +294,7 @@ __6. 字符和字符串参与运算__
 - 赋值运算符：=、+=、-=
 - 比较(关系/条件)运算符：>、<、>=、<=、!=
 - 逻辑运算符：&&、||
-- 位运算符：
+- 位运算符：>>、<<、>>>
 - 三目(元)运算符
 > 注意：+号三种作用，正、加法、字符串连接符
 ### A.算术运算符
@@ -524,7 +525,7 @@ __2.右移>>和无符号右移>>>__
     > - 可以接受String类型、枚举。<br>
 
     > 注意事项：
-    > - case后面只能常量
+    > - case后面只能常量（或字面常量）
     > - 多个case后面的值不能重复
     > - 如果不加break，匹配完当前值后会继续向下穿透匹配，直至遇到break关键字或代码结束}。
 
@@ -555,7 +556,7 @@ while(i < 100(判断条件语句)){
 }
 ```
 #### 3. do/while循环    
-> 特别的是无论如何都会执行一次循环体，不管判断成不成立。较之for和while执行0次以上的循环体，do/while是执行1次以上循环体。
+> 特别的是无论如何都会先执行一次循环体语句，然后才执行判断条件语句。较之for和while执行0次以上的循环体，do/while是执行1次以上循环体。
 ```java
 do {
     循环体语句;
@@ -563,8 +564,8 @@ do {
 }while(判断条件语句);
 ```
  - 流程
-    - a.首先不管三七二十一先执行循环体
-    - b.控制条件语句变化条件
+    - a.先执行循环体
+    - b.执行控制条件语句变化条件
     - c.判断条件
     - true继续从a执行
 
@@ -605,13 +606,17 @@ System.out.println("第二句");
 > 方法名相同，参数不同，与返回值类型无关
 - 参数个数不同
 - 参数类型不同
-
+```java
+public void love(){}
+public String love(int num){}
+public int love(String name, int num){}
+```
 <br>
 
 ## 数组
 > 引用数据类型
 ### 1.数组初始化
-- 动态初始化(元素不确定)<br>
+- 动态初始化(具体元素不确定)<br>
     > 数据类型[] 数组名 = new 数据类型[数组长度]
     ```java
     int[] apple = new int[3];
@@ -1745,7 +1750,8 @@ import A.B.C.*;// * 号通配符，JVM会到包下搜索，一旦匹配便对调
 <br>
 
 #### private、默认、protected和public权限控制
-![权限控制图](权限修饰符_image\权限修饰符说明.png)
+![权限控制图](./权限修饰符_image/权限修饰符说明.png)
+
 - 无关类即两个类无没有继承关系，平级
 
 __注意__
@@ -1779,3 +1785,436 @@ class Outer{
     }
 }
 ```
+
+#### 静态成员内部类
+> 在类中存在static修饰的内部类
+
+```java
+main(){
+    // 静态内部类的调用
+    // 外部类.内部类 对象名 = new 外部类.内部类构造方法
+    Outer.Inner oi = new Outer.Inner();
+
+    // 静态内部类的静态方法的调用
+    Outer.Inner2.print();
+}
+class Outer{
+    // 静态内部类
+    static class Inner{
+        public void method(){
+            //
+        }
+    }
+
+    static class Inner2{
+        // 静态内部类的静态方法
+        public static void print(){
+            //
+        }
+    }
+}
+```
+
+#### 内部类面试题
+依次输出 30,20,10
+```java
+class Outer{
+    public int num = 10;
+    class Inner{
+        public int num = 20;
+        public void show(){
+            int num = 30;
+            System.out.println(num);
+            System.out.println(this.num);
+            System.out.println(Outer.this.num);
+        }
+    }
+}
+```
+
+#### 局部内部类访问局部变量的问题
+> 在方法内部的类称局部内部类，只能在所在的方法内使用（实例化）
+```java
+class Outer{
+    public void localMethod(){
+        int num = 10; // JDK1.8会自动加上final，jdk1.7不手动加会报错。
+        class LocalInner{
+            public void access(){
+                System.out.println(num);
+            }
+        }
+
+        LocalInner li = new LocalInner();
+        li.access();
+    }
+}
+```
+- 为什么局部内部类访问局部变量，这个局部变量要final修饰成常量？
+    - 因为当调用这个方法时，该局部变量如果没有final修饰成常量，那么它的生命周期是随着方法调用完毕而消亡。而局部内部类所创建的对象可能并未回收，而且可能还想调用这个局部变量，但局部变量已经消失。所以就无法调用一个不存在的变量。
+    - 把该局部变量修饰成常量，就会赋值一份到方法区的常量池，保证了局部内部类对象可继续调用。
+    - JDK1.8新特性，如果自己不加final，JVM会自动帮你添加。
+
+__疑惑__:<br>
+局部内部类的对象引用作为局部变量（例如上面的li）存在于方法内，当方法执行完毕弹栈，这个li也随之消失了，即使堆内存仍然存在局部内部类对象，但都没有引用指向它了，这个对象不就成了垃圾了么，怎么还会有可能调用这个方法的其他局部变量？
+
+<br>
+
+#### 匿名内部类
+> 匿名内部类实际上是简化了代码，将继承或实现和创建子类一起做了。
+- 前提
+    - 存在一个类（具体类或抽象类）或接口  
+- 格式
+    ```java
+    new 类名或接口名(){
+        重写方法;
+    }
+    ```
+- 本质
+    ```java
+    interface A{
+        public void print();
+    }
+
+    class B {
+
+        class C implements A {
+            public void print(){
+                Sysem.out.println("CA");
+            }
+        }
+
+        public void method(){
+            new C().print(); // [new C()]代表着接口A的子类C的对象，并且调用了重写后的方法。
+        }
+    }
+
+    /*class B 相当于:*/
+
+    class B {
+
+        public void method(){
+            /*
+            new A():
+                意思是创建了一个类实现接口A，但这个类没有类名（匿名）。因为是接口，所以要重写该接口的抽象方法print()。所以new A()就是一个实现了接口的匿名类所实例化的匿名类对象。这个匿名类对象调用重写的方法。
+            */
+            new A(){
+                public void print(){
+                    Sysem.out.println("CA");
+                }
+            }.print();
+        }
+    }
+    ```
+
+- 重写多个方法的问题
+    ```java
+    interface A {
+        public void show1();
+        public void show2();
+    }
+
+    class B {
+        public void method(){
+            // 普通形式只能每次调用一个重写方法
+            new A(){
+                // 重写了多个抽象方法
+                public void show1(){
+                    // 输出show1
+                }
+
+                public void show2(){
+                    // 输出show2
+                }
+            }.show1();
+
+            // 多态形式
+            A a = new A(){
+                public void show1(){
+                    // 输出show1
+                }
+
+                public void show2(){
+                    // 输出show2
+                }
+                // 匿名内部类自己特有的方法
+                public void show3(){
+                    // 输出show3
+                }
+            };
+            // 可以调用多个，
+            a.show1();
+            a.show2();
+            // 但不能调用匿名内部类自己特有的方法，因为匿名内部类不能向下转型（匿名内部类没有类名）：
+            // a.show3();
+        }
+    }
+    ```
+    - 所以匿名内部类只针对重写一个方法时使用。
+- 匿名内部类再开发中的应用
+    - 当一个方法需要传递一个对象作为参数时，而且这个对象要求是某个接口或者类的子类对象。可用匿名内部类：
+        ```java
+        main(){
+            PersionDemo pd = new PersionDemo();
+            pd.method(new Persion(){ // 传入匿名内部类对象
+                public void show(){
+                    // 输出 show
+                }
+            });
+        }
+
+        abstract class Persion {
+            public abstract void show();
+        }
+
+        class PersionDemo {
+            public void method(Persion p){ // 要求是某个接口或类的子类对象
+            p.show();
+
+            }
+        }
+        ```
+__匿名内部类的面试题：__<br>
+```java
+main(){
+    /*题目：用以下语句输出helloworld*/
+    Outer.method().show();
+    // 实际上可以将上面代码拆解：
+    Inter it = Outer.method();
+    it.show();
+    /* Outer.method() => new Inter(){
+        public void show(){
+            System.out.println("HelloWorld");
+        }
+    };
+    */
+
+}
+
+interface Inter {
+    void show();
+}
+
+class Outer {
+    // 填空：补齐代码
+    // 答案：
+    public static Inter method(){
+        return new Inter(){
+            public void show(){
+                System.out.println("HelloWorld");
+            }
+        };
+    }
+
+}
+/*分析：
+    [Outer.method()]意味着method是静态方法，可以通过类名调用。
+    [Outer.method().show()]:Outer调用method方法之后还可以调用show方法，这意味着Outer.method()的结果是返回一个对象。这个show方法是接口Inter的方法，所以Outer.method()返回的是Inter对象。又因为Inter是接口，不能实例化对象，所以只能是实现了Inter接口的类的对象。
+    所以，结果是返回了匿名内部类对象。
+*/
+```
+
+<br>
+
+### Object
+
+#### hashCode()
+- 获取对象的哈希值(对象的地址值)，int
+- 该方法是用本地资源计算（native修饰）
+```java
+Student s = new Student();
+sout(s.hashCode());
+```
+
+#### getClass()
+- 返回对象的运行时类，返回类型 Class
+- Class 类型，描述类的类，返回字节码文件
+```java
+Student s = new Student();
+Class clazz = s.getClass(); // 获取对象的字节码文件，返回Class类型的对象
+String className = clazz.getName(); // 获取类名。
+
+Class clazz = new Class();// 不可行，需要通过某个对象来反求字节码文件。
+```
+
+#### toString();
+- 返回String 字符串
+- 返回的结果有三个部分：
+    ```java
+    // 源码
+    public String toString(){
+        return this.getClass().getName() + "@" + Integer.toHexString(this.hashCode())
+    }
+    /*返回结果：
+        左边：类名，this.getClass().getName()
+        中间：@
+        右边：对象的哈希值（地址值）十六进制形式
+    */
+    ```
+- 给方法的作用是可以更方便的显示属性值：
+    ```java
+    class Student {
+        
+        @Override
+        public String toString(){
+            return "我的名字是"+this.getName()+", 我的年龄是"+this.getAge();
+        }
+    }
+    ```
+
+#### equals()
+- 对比两个对象的地址值是否相等（是否同个对象），返回true/false
+    ```java
+    // 源代码：
+    public boolean equale(Object ojb){
+        return (this == obj)
+    }
+    ```
+- 重写该方法使其更具意义（对比两个对象的属性是否一致）
+    ```java
+    class Student {
+
+        @Override
+        public boolean equals(Object obj){
+            return (this.name == (Student)obj.name) && (this.age == (Student)obj.age);
+        }
+    }
+    ```
+- equals()和 ”==“的区别
+    - 共同点
+        - 比较功能，返回值为布尔类型
+    - 不同点
+        - ”==“可以比较基本数据类型（比较值），也可以比较引用数据类型（比较地址值）。
+
+<br>
+
+### String类
+#### Scanner
+- 常用构造方法接收一个标准输入流
+    ```java
+    Scanner s = new Scanner(System.in);
+    // System类下有一个静态字段
+    public static final InputStream in;// 标准输入流，对应键盘录入
+    ```
+- hasNextXxx()
+    - 判断是否还有下一个输入，且这个输入是Xxx类型的，如Int,Double等。
+- hasNext()
+    - 判断是否还有下一个输入，且是字符串类型
+- nextXxx()
+    - 获取下一个输入项
+    - 默认情况，使用空格和回车等作为分割符。
+    - 如果输入不符合的Xxx类型的值，会抛出异常
+- nextLine()
+    - 获取一行字符串
+    - 遇到\r\n符号获取完毕（换行符）
+    - 产生的问题：
+        ```java
+        Scanner scan = new Scanner(System.in);
+        sout("请输入一个整数：");
+        int i = scan.nextInt();
+        sout("请输入一个字符串：");
+        String s = scan.nextLine(); // 读取到”\n“
+        sout("i="+i+"  s="+s);
+        /*
+        输出结果：
+            请输入一个整数：12
+            请输入一个字符串：i=12  s=
+        原因：
+            因为nextInt()只读取数值，剩下的”\n“还没有读取，并将指针放在本行中。nextLine()会读取到”\n“并结束。
+        */
+        ```
+
+#### String概述
+
+- 字符串字面值如“abc”亦为一个字符串对象。
+- 字符串是常量
+- String常用构造方法：
+    ```java
+    // String()
+    String s1 = new String();
+
+    // String(byte[] bytes)
+    byte[] arr1 = {97,98,99,100,101};
+    String s2 = new String(arr1);
+    // 输出 abc
+
+    // String(byte[] bytes, int index, int length),从索引index开始，转换length个byte为字符串
+    String s3 = new String(arr1, 1, 2);
+    // 输出 bc
+
+    // String(char[] value),将字符数组转换为字符串
+    char[] carr = {'a','b','c','d'};
+    String s4 = new String(carr);
+    // 输出 abcd
+
+    // String(char[] value, int index, int count),和第三个构造方法同样功能
+    String s5 = new String(carr, 1,2);
+    // 输出 bc
+    ```
+#### String面试题
+1. 
+    ```java
+    String s1 = "abc";  // 首先查看方法区常量池是否有“abc”,没有则创建一个，并将地址值赋给s1.
+    String s2 = "abc";  // 先去查看方法区常量池是否有“abc”,发现已经存在，就将该地址值赋给s2
+    s1 == s2;     // true, 两者都是同一个地址值，所以true
+    s1.equals(s2);// true，String类重写了Object类的equals方法，可以比较字符串序列（内容）是否相等。
+    ```
+
+2. 创建了多少个对象？
+    ```java
+    String s1 = new String("abc");
+    // 创建了两个对象
+    /*
+        首先会在常量池创建“abc”，然后复制一份给new String()对象。
+    */
+    ```
+3. 
+    ```java
+    String s1 = new String("abc"); // 先在常量池查找是否存在“abc”,没有则创建，然后复制一份给String对象。
+    String s2 = "abc"; // 先在常量池查找是否存在“abc”,发现已经存在，就返回地址值
+    s1 == s2;       // false， 因为abc复制一份副本给String对象，所以s1是存储的是堆内存中的String对象地址值。而s2是常量池的地址值，所以不等
+    s1.equals(s2);  // true
+    ```
+4. 
+    ```java
+    String s1 = "a"+"b"+"c"; // 常量优化机制，在编译时就已知"a","b","c",三者连接产生的字符串在编译时就得出，然后在常量创建该字符串
+    String s2 = "abc";  // 先去常量池查找是否存在，发现已经存在，返回地址值
+    s1 == s2;  // true
+    s1.equals(s2); // true
+    ```
+5. 
+    ```java
+    String s1 = "ab";
+    String s2 = "abc";
+    String s3 = s1 + "c";  // 任何数据类型用（+）连接字符串，都会调用StringBuffer或者StringBuilder类的append方法将s1和”c“追加到缓冲区，成为StringBuffer或者StringBuilder的实例，然后再调用重写的toString()方法转换为字符串返回堆内存地址值给s3
+    s3 == s2;  // false, s3再堆内存的地址值和s2的常量池地址值当然不等。
+    s3.equals(s2); // true
+    ```
+#### String类的判断方法
+- equals(Object obj):比较字符串内容，区分大小写
+    ```java
+    "abc".equals("ABC"); // false
+    ```
+- equalsIgnoreCase(String str):不区分大小写
+    ```java
+    "abc".equals("ABC"); // true
+    ```
+- contains(String str):判断字符串中是否含有某个字符串
+    ```java
+    "我abc".contains("abc"); // true
+    ```
+- startsWith(String str):判断字符串是否以指定的字符串开头
+    ```java
+    "我abc".startsWith("我"); // true
+    ```
+- endsWith(String str):判断字符串是否以指定的字符串结尾
+    ```java
+    "we are family".endsWith("family");// true
+    ```
+- isEmpty():判断字符串是否为空字符串
+    ```java
+    "".isEmpty(); // true
+    null.isEmpty(); // 空指针异常
+    ```
+    - ""空字符串和null的区别
+        - ""是字符串常量，亦是String对象
+        - null是空常量，不能调用任何方法。可给任何引用数据类型赋值。
