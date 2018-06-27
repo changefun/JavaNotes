@@ -2189,7 +2189,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     s3 == s2;  // false, s3再堆内存的地址值和s2的常量池地址值当然不等。
     s3.equals(s2); // true
     ```
-#### String类的判断方法
+#### String类的常用判断方法
 - equals(Object obj):比较字符串内容，区分大小写
     ```java
     "abc".equals("ABC"); // false
@@ -2218,3 +2218,63 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     - ""空字符串和null的区别
         - ""是字符串常量，亦是String对象
         - null是空常量，不能调用任何方法。可给任何引用数据类型赋值。
+
+#### String类常用的获取方法
+> 找不到返回-1
+- int lenght(): 获取字符串长度（字符的个数）
+    ```java
+    String s = "abcdefg";
+    System.out.println(s.length()); // 输出7
+    ```
+- char charAt(int index): 根据index获取字符串某个字符
+    ```java
+    System.out.println(s.charAt(2)); // 输出c
+    ```
+- int indexOf(int char): 返回指定字符在字符串第一次出现的索引
+    ```java
+    // 返回指定字符在字符串第一次出现的索引，参数可以是整型、char.
+    System.out.println(s.indexOf(97)); // 整型转换为char(ascll码)
+    System.out.println(s.indexOf('a'));// 直接输入char字符
+    ```
+- int indexOf(String str): 返回指定字符串在字符串第一次出现的索引
+    ```java
+    // 返回指定字符串在字符串第一出现的索引
+    System.out.println(s.indexOf("cd"));
+    System.out.println(s.indexOf("ce")); // 字符必须相邻
+    ```
+- int indexOf(int char, int fromIndex): 从fromIndex开始搜索，返回指定字符在字符串中第一次出现的索引。
+    ```java
+    // 从指定位置开始搜索，返回指定字符在字符串中的第一次出现的索引
+    System.out.println(s.indexOf('e', 2)); // 输出4, 可以知道索引是固定的，不以fromIndex为参考
+    ```
+- int indexOf(String str, int fromIndex): 从fromIndex开始搜索，返回指定字符串在字符串中第一次出现的索引
+    ```java
+    // 从指定位置开始搜索，返回指定字符串在字符串的第一次出现的索引
+    System.out.println(s.indexOf("cd", 1)); // 同上
+    ```
+- int lastIndexOf(int char): 从后向前搜索，返回第一次出现的字符索引。（索引顺序不变）
+    ```java
+    // 从后向前搜索字符(串)，返回第一次出现的索引
+    System.out.println(s.lastIndexOf('e')); // 输出4,可以知道索引不以从哪里开始搜索为参考
+    System.out.println(s.lastIndexOf("cd"));
+    ```
+- int lastIndexOf(int char, int fromIndex): 从指定位置向前找
+    ```java
+    System.out.println(s.lastIndexOf('e', 5)); // 从指定位置向前搜索
+    System.out.println(s.lastIndexOf("cd", 5));
+    ```
+- String substring(int start):从指定位置开始截取字符串，默认到末尾。返回一个新的字符串
+    ```java
+    // 从指定位置截取
+    System.out.println(s.substring(3));// 输出defg
+    ```
+- String substring(int start, int end):从指定位置开始到结束截取字符串。
+    ```java
+    System.out.println(s.substring(3, 5)); // 从开始索引开始截取，结束索引结束截取
+    ```
+- __坑：__
+    ```java
+    String s = "abcde";
+    s.substring(2);
+    sout(s);// 正确答案是abcde，因为调用substring()方法是不会对原来的字符串产生影响的，它返回新的字符串对象
+    ```
