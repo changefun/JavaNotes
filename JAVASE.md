@@ -455,7 +455,7 @@ __1.左移<<__
 ```
 __2.右移>>和无符号右移>>>__
 
-        右移 N 位，等价于该数除以2的 N 次方，左边最高位若是1则补1,否则补0.
+        右移 N 位，等价于该数除以2的 N 次方，左边最高位若是1则补1,否则补0.(针对有符号右移)
 ```java
 12 >> 3:
 00000000 00000000 00000000 00001100 = 
@@ -606,6 +606,7 @@ System.out.println("第二句");
 > 方法名相同，参数不同，与返回值类型无关
 - 参数个数不同
 - 参数类型不同
+    - （参数顺序不同）
 ```java
 public void love(){}
 public String love(int num){}
@@ -623,7 +624,7 @@ public int love(String name, int num){}
     /* int[] 一维数组
     *  int[][] 二维数组 */
     ```
-    > 数组初始化会有默认值
+    > 数组初始化元素会有默认值
     ```java
     整型：byte、short、int和long默认初始化值是0
     浮点型：float和double是0.0
@@ -634,11 +635,11 @@ public int love(String name, int num){}
     ```
     > “new int[3]” 返回数组的信息：[I@7f31245a
     ```java
-    [I@7f31245a
-    [： 一维数组
+    [I@7f31245a：
+    [： 一维数组（一个左括号）
     I:  int类型、byte则是B、short则是S、boolean则是Z等等
     @：固定格式
-    7f31245a：内存地址值
+    7f31245a：内存地址值（整型哈希值转换为16进制）
     ```
 - 静态初始化(元素确定)
     > 数据类型[] 数组名 = new 数据类型[]{元素1,元素2,...}
@@ -660,7 +661,7 @@ public int love(String name, int num){}
 ### 3.堆栈
 - 堆：存储new出来的数组或对象
 - 栈：存储局部变量(定义在方法声明上和方法内的变量)，先进后出（先进的压箱底）
-- 方法区：面向对象占位
+- 方法区：存放.class字节码（类模板）
 - 本地方法区
 - 寄存器：cpu使用
 ![堆栈](./数组/数组_堆栈.png)
@@ -680,6 +681,7 @@ public int love(String name, int num){}
     - 数组名[1] = new 数据类型[4];
     - .......
 - 数据类型[][] 数组名 = {{1,2},{3,4,5},{6}};(静态)
+    - 数据类型[][] 数组名 = new 数据类型[][]{{1,2},{1,2}}（标准格式）
 
 #### 注意：
 ```java
@@ -708,6 +710,7 @@ public static void main(String[] agrs){
     System.out.println(a[0]); //输出 1
 }
 ```
+<br>
 
 ## 面向对象
 ### 程序执行时在JVM内存中如何表现的？
@@ -720,7 +723,7 @@ public static void main(String[] agrs){
         Student student1 = new Student();// 执行到这句时，先在栈内存申请一块空间，名字叫student1，用来存储new返回的地址值。
     }
     ```
-- __e__ 执行到new Student()时，类加载器将Student.class文件载入JVM内存方法区中，static静态变量也进行了默认初始化：
+- __e__ 执行到new Student()时，类加载器将Student.class文件载入JVM内存方法区中，static静态变量随之进行了默认初始化：
     ```java
     Student student1 = new Student();// 从方法区中找到Student类信息，然后在堆内存中申请一块空间，并依照这些类信息实例化出实体，里面存储的是对象属性，然后进行初始化工作。
     ```
@@ -738,7 +741,7 @@ public static void main(String[] agrs){
     ```
 - __i__ 调用构造函数初始化时，构造函数进栈，完成工作后出栈。
 - __j__ 所有初始化完成后，返回地址给变量（局部的）Student s。
-- __k__ 局部变量 s 指向的是对象的地址，通过地址可以直接操作在堆内存中的对象属性：s.name="张三";
+- __k__ 局部变量 s 保存的是对象的地址，通过地址可以直接操作在堆内存中的对象属性：s.name="张三";
 - __l__ s调用study()时，study()从方法区中压进栈内存中。
 - __n__ study()中隐藏着一个变量this，s调用study()方法时就将堆内存中的实体的地址赋予给this。study()方法就可以凭着地址去堆内存中找数据和操作数据。
 - study()操作完后出栈。
@@ -822,7 +825,7 @@ public class {
         ```
     - 匿名对象可以作为实际参数传递给方法
         ```java
-        Teacher(new Student());
+        Teacher(new Student()); // 因为方法括号内存在声明好的形参来接收这个new返回的地址。
         ```
 ### 封装
 > 隐藏对象的属性和实现细节，仅对外提供公共访问方式。
@@ -833,7 +836,7 @@ public class {
 ### this关键字
 > 对象本身的引用
     
-        创建对象后，对象调用成员方法时，例如student.study(),study()方法有个隐藏的this，student对象调用的时候会将对象实体内存地址告诉study()中的this，study()方法就可以凭地址去找堆内存的对象实体进行操作。
+        创建对象后，对象调用成员方法时，例如student.study(),study()方法有个隐藏的this，student对象调用的时候会将对象实体内存地址赋给study()中的this，study()方法就可以凭地址去找堆内存的对象实体进行操作。
 
 > 用于区分成员方法的形参名和成员变量名。
 ```java
@@ -856,7 +859,7 @@ public void setName(String name){ // 形参（方法的局部变量）
 - 构造方法名必须和类名相同
 - 一般为public修饰（提供给公共）
     - 可以是private（私有构造方法）
-        - 如果类中所有方法都是静态方法，推荐私有化构造方法，这样就不能实例化对象了。
+        - 如果类中所有方法都是静态方法，推荐私有化构造方法，这样就不能实例化对象了，因为全部都是静态方法，直接类名调用方便。
 - 不可以写void，写void就不是构造方法
 - 没有返回值，但可写“return;”可不写。
 
@@ -911,16 +914,16 @@ main(){
 
 ### 构造方法和setXXX()
 #### 构造方法
-- 在创建对象时对兑现熟悉初始化，初始化后的对象属性如果没有提供公共方法来修改，意味着初始化完就固定下来了。
+- 在创建对象时对对象属性初始化，初始化后的对象属性如果没有提供公共方法来修改，意味着初始化完就固定下来了。
 #### setXXX方法
 - 可以灵活的修改对象属性
 
 ### static关键字和静态变量
 #### 静态变量在内存中的表现
 - 类加载器加载.class文件（字节码）进JVM的方法区
-    - 这时，类的静态变量进行默认初始化
+    - 这时，类的静态变量进行默认初始化（JVM置其为零）
 - 实例化对象时，根据方法区的某个类的类信息，在堆内存中申请一块空间用来存储对象属性。
-    - 这时，对类的静态变量进行显式初始化，即赋值。
+    - 这时，对类的静态变量进行显式初始化（如果有），即赋值。
 - 实例化第二个对象，重复第二步。
     - 这时，已经不再对静态变量进行显式初始化了，因为已经被初始化过了，除非手动进行。这里也可以调用这个静态变量了。
 - 实例化n个对象，都可以调用这个静态变量。
@@ -957,7 +960,7 @@ main(){
 - 静态变量和成员变量的区别
     - 所属不同
         - 静态变量属于类，亦称类变量
-        - 成员变量属于对象，亦称实力变量
+        - 成员变量属于对象，亦称实例变量
     - 内存中的位置不同
         - 静态变量存储在方法区的静态区
         - 成员变量则存储在堆内存
@@ -1067,7 +1070,7 @@ public class Main{
     }
 
     ```
-    <font color="yellow">注意：成员变量的初始化工作也被JVM移到构造方法内执行哦！</font>
+    <font color="yellow">注意：成员变量的显式初始化工作也被JVM移到构造方法内执行（待验证）</font>
 
 #### 静态代码块
 - 在类之中在方法之外；以static修饰。首次实例化对象时，优先于构造方法执行，如果还有其它静态变量，则看谁在上谁先执行。并且只执行一次，无论创建多少次对象：
@@ -2190,27 +2193,27 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     s3.equals(s2); // true
     ```
 #### String类的常用判断方法
-- equals(Object obj):比较字符串内容，区分大小写
+- `boolean equals(Object obj)`:比较字符串内容，区分大小写
     ```java
     "abc".equals("ABC"); // false
     ```
-- equalsIgnoreCase(String str):不区分大小写
+- `boolean equalsIgnoreCase(String str)`:不区分大小写
     ```java
     "abc".equals("ABC"); // true
     ```
-- contains(String str):判断字符串中是否含有某个字符串
+- `boolean contains(String str)`:判断字符串中是否含有某个字符串
     ```java
     "我abc".contains("abc"); // true
     ```
-- startsWith(String str):判断字符串是否以指定的字符串开头
+- `boolean startsWith(String str)`:判断字符串是否以指定的字符串开头
     ```java
     "我abc".startsWith("我"); // true
     ```
-- endsWith(String str):判断字符串是否以指定的字符串结尾
+- `boolean endsWith(String str)`:判断字符串是否以指定的字符串结尾
     ```java
     "we are family".endsWith("family");// true
     ```
-- isEmpty():判断字符串是否为空字符串
+- `boolean isEmpty()`:判断字符串是否为空字符串
     ```java
     "".isEmpty(); // true
     null.isEmpty(); // 空指针异常
@@ -2221,54 +2224,54 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
 
 #### String类常用的获取方法
 > 找不到返回-1
-- int lenght(): 获取字符串长度（字符的个数）
+- `int lenght()`: 获取字符串长度（字符的个数）
     ```java
     String s = "abcdefg";
     System.out.println(s.length()); // 输出7
     ```
-- char charAt(int index): 根据index获取字符串某个字符
+- `char charAt(int index)`: 根据index获取字符串某个字符。可以通过for循环和length()来遍历字符串。
     ```java
     System.out.println(s.charAt(2)); // 输出c
     ```
-- int indexOf(int char): 返回指定字符在字符串第一次出现的索引
+- `int indexOf(int char)`: 返回指定字符在字符串第一次出现的索引
     ```java
     // 返回指定字符在字符串第一次出现的索引，参数可以是整型、char.
     System.out.println(s.indexOf(97)); // 整型转换为char(ascll码)
     System.out.println(s.indexOf('a'));// 直接输入char字符
     ```
-- int indexOf(String str): 返回指定字符串在字符串第一次出现的索引
+- `int indexOf(String str)`: 返回指定字符串在字符串第一次出现的索引
     ```java
     // 返回指定字符串在字符串第一出现的索引
     System.out.println(s.indexOf("cd"));
     System.out.println(s.indexOf("ce")); // 字符必须相邻
     ```
-- int indexOf(int char, int fromIndex): 从fromIndex开始搜索，返回指定字符在字符串中第一次出现的索引。
+- `int indexOf(int char, int fromIndex)`: 从fromIndex开始搜索，返回指定字符在字符串中第一次出现的索引。
     ```java
     // 从指定位置开始搜索，返回指定字符在字符串中的第一次出现的索引
     System.out.println(s.indexOf('e', 2)); // 输出4, 可以知道索引是固定的，不以fromIndex为参考
     ```
-- int indexOf(String str, int fromIndex): 从fromIndex开始搜索，返回指定字符串在字符串中第一次出现的索引
+- `int indexOf(String str, int fromIndex)`: 从fromIndex开始搜索，返回指定字符串在字符串中第一次出现的索引
     ```java
     // 从指定位置开始搜索，返回指定字符串在字符串的第一次出现的索引
     System.out.println(s.indexOf("cd", 1)); // 同上
     ```
-- int lastIndexOf(int char): 从后向前搜索，返回第一次出现的字符索引。（索引顺序不变）
+- `int lastIndexOf(int char)`: 从后向前搜索，返回第一次出现的字符索引。（索引顺序不变）
     ```java
     // 从后向前搜索字符(串)，返回第一次出现的索引
     System.out.println(s.lastIndexOf('e')); // 输出4,可以知道索引不以从哪里开始搜索为参考
     System.out.println(s.lastIndexOf("cd"));
     ```
-- int lastIndexOf(int char, int fromIndex): 从指定位置向前找
+- `int lastIndexOf(int char, int fromIndex)`: 从指定位置向前找
     ```java
     System.out.println(s.lastIndexOf('e', 5)); // 从指定位置向前搜索
     System.out.println(s.lastIndexOf("cd", 5));
     ```
-- String substring(int start):从指定位置开始截取字符串，默认到末尾。返回一个新的字符串
+- `String substring(int start)`:从指定位置开始截取字符串，默认到末尾。返回一个新的字符串
     ```java
     // 从指定位置截取
     System.out.println(s.substring(3));// 输出defg
     ```
-- String substring(int start, int end):从指定位置开始到结束截取字符串。
+- `String substring(int start, int end)`:从指定位置开始到结束截取字符串。
     ```java
     System.out.println(s.substring(3, 5)); // 从开始索引开始截取，结束索引结束截取
     ```
@@ -2277,4 +2280,84 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     String s = "abcde";
     s.substring(2);
     sout(s);// 正确答案是abcde，因为调用substring()方法是不会对原来的字符串产生影响的，它返回新的字符串对象
+    ```
+#### 字符串的转换功能
+- `byte[] getBytes():` 把字符串转换为byte数组
+    ```java
+
+    ```
+    - 将字符串转为字节数组是编码工作（将我们看得懂的转为计算机看得懂的）
+        - 按照当前平台设定的编码（GBK、UTF-8等）来进行编码。
+        - GBK码表的特点：
+            - 汉字有两个字节
+            - 汉字的第一个字节是负数
+
+- `char[] toCharArray()`: 把字符串转换为char数组
+- `static String valueOf(任意数据类型)`：把任意数据类型（基本数据类型、数组）转换为字符串。
+- `String toLowerCase()`: 把字符串中的字符转换为小写
+- `String toUpperCase()`: 把字符串中的字符转换为大写
+- `String concat(String str)`: 连接字符串
+    - concat()和“+”的区别：
+        - “+”可以将字符串和任意数据类型连接形成新的字符串
+
+#### 字符串的替换功能
+- `String replace(char old/String str, char new/String str):`
+    ```java
+    String str = "changefun";
+    String str2 = str.replace('u', 'e'); // changefen
+    String str3 = str.replace("fun", "feng");// changefeng
+    ```
+#### 字符串去除两端空格
+- `String trim()`
+    ```java
+    String s = "  abcd  ";
+    String s2 - s.trim(); // abcd
+    ```
+#### 字符串按字典顺序比较字符串
+- `int compareTo(String str)`
+    ```java
+    /*
+        从两个字符串中的第一个字符开始比较，如a和b, a的unicode编码是97,b是98,
+        字符串s1调用compareTo()方法即a-b=97-98=-1.
+    */
+
+    String s1 = "abcd";
+    System.out.println(s1.compareTo("bcde")); // -1
+    System.out.println("bcde".compareTo(s1)); // 1, 谁调用该方法谁就作为减数 98-97=1
+
+    System.out.println("abc".compareTo("abc")); // 0, 第一个字符大家都相等，再比较第二个字符，以此类推
+
+    System.out.println("a".compareTo("abbb")); // -3,  第一个字符都是a，但第一个字符串只有一个字符，所以比较结果是两个字符串的长度相减
+
+    System.out.println("成".compareTo("功"));
+    ```
+- `int compareToIgnoreCase(String str)`:忽略大小写
+
+#### 字符串翻转
+- 将字符串转为char数组
+- 遍历char数组，取出的元素放在后面拼接
+    ```java
+    String s = "";
+    char[] sc = "abcdef".toCharArray();
+    for (int i = 0; i < sc.length; i++){
+        s = sc[i] + s; // 核心代码
+    }
+    ```
+#### 字符串统计
+- 在大字符串中统计小字符串
+    - 循环利用indexOf(String s, int fromIndex)方法来更新小字符串出现的索引，再根据索引去开展新一次查找
+    ```java
+    int firstIndex = 0;
+    int Sslength = Sstr.length();
+    int count = 0;
+    while(Bstr.indexOf(Sstr) != -1){
+        firstIndex = Bstr.indexOf(Sstr, firstIndex);
+        if (firstIndex != -1){
+            count++;
+            firstIndex += Sslength;// 再加上小字符串的长度作为开始的索引
+        }else {
+            break;
+        }
+    }
+    return count;
     ```

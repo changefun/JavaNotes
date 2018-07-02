@@ -12,11 +12,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="String_getFunction.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/字符串的获取功能/String_getFunction.java">
+      <file leaf-file-name="StringTransport.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/字符串的转换功能/StringTransport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="26" column="47" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
+            <state relative-caret-position="316">
+              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+              <folding>
+                <element signature="e#93#94#0" expanded="true" />
+                <element signature="e#120#121#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -38,6 +42,8 @@
         <option value="$PROJECT_DIR$/src/String_Construtor/String_Construtor.java" />
         <option value="$PROJECT_DIR$/src/String类的常用判断方法/String_Judge.java" />
         <option value="$PROJECT_DIR$/src/字符串的获取功能/String_getFunction.java" />
+        <option value="$PROJECT_DIR$/src/从字符串中统计大写小写数字和符号/CharCount.java" />
+        <option value="$PROJECT_DIR$/src/字符串的转换功能/StringTransport.java" />
       </list>
     </option>
   </component>
@@ -51,8 +57,7 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="543" />
-    <option name="y" value="51" />
+    <option name="y" value="45" />
     <option name="width" value="1336" />
     <option name="height" value="698" />
   </component>
@@ -125,7 +130,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.String_getFunction">
+  <component name="RunManager" selected="Application.StringTransport">
+    <configuration name="CharCount" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="从字符串中统计大写小写数字和符号.CharCount" />
+      <module name="String类" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="从字符串中统计大写小写数字和符号.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="StringTransport" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="字符串的转换功能.StringTransport" />
+      <module name="String类" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="字符串的转换功能.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
     <configuration name="String_Construtor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="String_Construtor.String_Construtor" />
       <module name="String类" />
@@ -155,17 +182,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="字符串的获取功能.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-    </configuration>
-    <configuration name="Test_Scanner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Scanner类.Test_Scanner" />
-      <module name="String类" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Scanner类.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -212,17 +228,19 @@
       <listeners />
     </configuration>
     <list>
-      <item itemvalue="Application.Test_Scanner" />
       <item itemvalue="Application.String_Construtor" />
       <item itemvalue="Application.String_Judge" />
       <item itemvalue="Application.String_getFunction" />
+      <item itemvalue="Application.CharCount" />
+      <item itemvalue="Application.StringTransport" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.StringTransport" />
+        <item itemvalue="Application.CharCount" />
         <item itemvalue="Application.String_getFunction" />
         <item itemvalue="Application.String_Judge" />
         <item itemvalue="Application.String_Construtor" />
-        <item itemvalue="Application.Test_Scanner" />
       </list>
     </recent_temporary>
   </component>
@@ -237,15 +255,15 @@
       <option name="presentableId" value="Default" />
       <updated>1530024734793</updated>
       <workItem from="1530024738987" duration="3562000" />
-      <workItem from="1530058095121" duration="2663000" />
+      <workItem from="1530058095121" duration="8454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6225000" />
+    <option name="totallyTimeSpent" value="12016000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="543" y="51" width="1336" height="698" extended-state="0" />
+    <frame x="0" y="45" width="1336" height="698" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -258,7 +276,7 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32685512" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32685512" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -330,8 +348,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/字符串的获取功能/String_getFunction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="26" column="47" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
+        <state relative-caret-position="234">
+          <caret line="31" column="68" lean-forward="true" selection-start-line="31" selection-start-column="68" selection-end-line="31" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/从字符串中统计大写小写数字和符号/CharCount.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+          <folding>
+            <element signature="e#95#96#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/字符串的转换功能/StringTransport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding>
+            <element signature="e#93#94#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -27,9 +27,10 @@ public class String_getFunction {
         System.out.println(s.lastIndexOf('e', 5)); // 从指定位置向前搜索
         System.out.println(s.lastIndexOf("cd", 5));
 
-        // 从指定索引开始截取，默认到最后一个元素
+        // 从指定位置截取
         System.out.println(s.substring(3));// 输出defg
-        System.out.println(s.substring(3, 5));
+        System.out.println(s.substring(3, 5)); // 从开始索引开始截取，结束索引结束截取
+
 
 
 
