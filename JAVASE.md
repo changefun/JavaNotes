@@ -1,5 +1,4 @@
 ## 常量（constant）
-<br>
 
 ### A. 字面常量
 - 字符串常量（双引号括起来的内容）
@@ -2090,8 +2089,8 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
 
 <br>
 
-### String类
-#### Scanner
+## String类
+### Scanner
 - 常用构造方法接收一个标准输入流
     ```java
     Scanner s = new Scanner(System.in);
@@ -2126,7 +2125,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
         */
         ```
 
-#### String概述
+### String概述
 
 - 字符串字面值如“abc”亦为一个字符串对象。
 - 字符串是常量
@@ -2153,7 +2152,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     String s5 = new String(carr, 1,2);
     // 输出 bc
     ```
-#### String面试题
+### String面试题
 1. 
     ```java
     String s1 = "abc";  // 首先查看方法区常量池是否有“abc”,没有则创建一个，并将地址值赋给s1.
@@ -2192,7 +2191,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     s3 == s2;  // false, s3再堆内存的地址值和s2的常量池地址值当然不等。
     s3.equals(s2); // true
     ```
-#### String类的常用判断方法
+### String类的常用判断方法
 - `boolean equals(Object obj)`:比较字符串内容，区分大小写
     ```java
     "abc".equals("ABC"); // false
@@ -2222,7 +2221,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
         - ""是字符串常量，亦是String对象
         - null是空常量，不能调用任何方法。可给任何引用数据类型赋值。
 
-#### String类常用的获取方法
+### String类常用的获取方法
 > 找不到返回-1
 - `int lenght()`: 获取字符串长度（字符的个数）
     ```java
@@ -2281,7 +2280,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     s.substring(2);
     sout(s);// 正确答案是abcde，因为调用substring()方法是不会对原来的字符串产生影响的，它返回新的字符串对象
     ```
-#### 字符串的转换功能
+### 字符串的转换功能
 - `byte[] getBytes():` 把字符串转换为byte数组
     ```java
 
@@ -2300,20 +2299,20 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     - concat()和“+”的区别：
         - “+”可以将字符串和任意数据类型连接形成新的字符串
 
-#### 字符串的替换功能
+### 字符串的替换功能
 - `String replace(char old/String str, char new/String str):`
     ```java
     String str = "changefun";
     String str2 = str.replace('u', 'e'); // changefen
     String str3 = str.replace("fun", "feng");// changefeng
     ```
-#### 字符串去除两端空格
+### 字符串去除两端空格
 - `String trim()`
     ```java
     String s = "  abcd  ";
     String s2 - s.trim(); // abcd
     ```
-#### 字符串按字典顺序比较字符串
+### 字符串按字典顺序比较字符串
 - `int compareTo(String str)`
     ```java
     /*
@@ -2333,7 +2332,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
     ```
 - `int compareToIgnoreCase(String str)`:忽略大小写
 
-#### 字符串翻转
+### 字符串翻转
 - 将字符串转为char数组
 - 遍历char数组，取出的元素放在后面拼接
     ```java
@@ -2343,7 +2342,7 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
         s = sc[i] + s; // 核心代码
     }
     ```
-#### 字符串统计
+### 字符串统计
 - 在大字符串中统计小字符串
     - 循环利用indexOf(String s, int fromIndex)方法来更新小字符串出现的索引，再根据索引去开展新一次查找
     ```java
@@ -2360,4 +2359,1009 @@ Class clazz = new Class();// 不可行，需要通过某个对象来反求字节
         }
     }
     return count;
+    ```
+<br>
+
+### StringBuffer
+- 线性安全的可变字符序列
+- StringBuffer和String的区别
+    - String是一个不可变的字符序列
+    - StringBuffer是可变的字符序列
+    - String对象可以通过“+”和任何类型数据拼接产生新的字符串
+    - StringBuffer对象不可用“+”来拼接字符串，只能用append,insert方法来操作字符串。
+- 默认提供可存储16个字符的缓冲区，当溢出时，自动将内容复制到新的更大的缓冲区数组
+- String和StringBuffer当作参数在方法中传递时，由于String一旦被初始化便不可被修改，所以传入方法内后被任何操作都不会改变原来的字符串。而StringBuffer则可以被修改。
+
+#### StringBuffer构造方法
+- `StringBuffer()` 无参构造方法
+    ```java
+    StringBuffer sb = new StringBuffer();
+    sb.length(); // 0 实际值，返回字符数
+    sb.capacity();// 16 理论值，返回当前容量
+    ```
+- `StringBuffer(int capacity)`:指定容量的字符串缓冲区对象
+    ```java
+    StringBuffer sb = new StringBuffer(10);// 手动指定可存储10个字符的缓冲区
+    ```
+- `StringBuffer(String str)`: 指定字符串内容的字符串缓冲区对象
+    ```java
+    StringBuffer sb = new StringBuffer("成功");
+    sb.capacity();// 18, 传入的字符串长度加默认缓冲区容量16=18
+    ```
+#### StringBuffer字符串操作
+> StringBuffer对像的操作返回都是更改后的缓冲区自身，不产生新的对象或字符串。
+- 添加功能
+    - `StringBuffer append(任意数据类型 xxx)`: 调用该方法追加字符到后面
+        - 该方法返回操作后的缓冲区本身，不像String那样产生新的字符串返回
+        ```java
+        StringBuffer sb = new StringBuffer();
+        sb.append(1); // 不会产生新的字符串或对象，都在原来的缓冲区操作
+        sb.append("changefun");
+        sout(sb); // 1changefun
+        ```
+    - `StringBuffer insert(int offset, 任意数据类型 xxx)`: 在指定offset索引处插入内容。
+        ```java
+        StringBuffer sb = new StringBuffer("changefun");
+        sb.insert(6, "haha"); // 如果构造方法未传入字符串，这里指定的索引会抛出越界异常。
+        sout(sb); // changehahafun
+        ```
+- 删除功能
+    - `StringBuffer deleteCharAt(int index):`删除指定位置的字符
+        ```java
+        StringBuffer sb = new StringBuffer("changefun");
+        sb.deleteCharAt(0);
+        sout(sb);// hangefun
+        ```
+    - `StringBuffer delete(int start, int end):`删除从指定位置到结束位置的内容。
+        ```java
+        StringBuffer sb = new StringBuffer("changefun");
+        sb.delete(0, 6);
+        sout(sb); // fun
+        sb.delete(0, sb.length()); // 清空缓冲区
+        ```
+- 替换功能
+    - `StringBuffer replace(int start, int end, String str):` 从指定开始位置到结束位置替换为自定义字符串
+    ```java
+    StringBuffer sb = new StringBuffer("changefun");
+    sb.replace(0,6, "cheng"); // chengfun
+    ```
+- 翻转功能
+    - `StringBuffer reverse(): `翻转字符串
+    ```java
+    StringBuffer sb = new StringBuffer("changefun");
+    sb.reverse(); // nufegnahc
+    ```
+- 截取功能
+    - `String substring(int start, int end): `从指定位置或范围截取，产生新的字符串对象返回，注意：不改变原字符序列。
+    ```java
+    StringBuffer sb = new StringBuffer("changefun");
+    String str = sb.substring(6); // fun
+    String str2 = sb.substring(0,6); // change
+    System.out.println(sb); // changefun, 截取操作不影响原来的字符序列
+    ```
+- String和StringBuffer互转
+    - String转StringBuffer
+        - 通过StringBuffer的构造方法
+            ```java
+            String s = "changefun";
+            StringBuffer sb = new StringBuffer(s);
+            ```
+        - 通过append方法
+            ```java
+            String s = "changefun";
+            StringBuffer sb = new StringBuffer();
+            sb.append(s);
+            ```
+    - StringBuffer转String
+        - 通过String的构造方法
+            ```java
+            StringBuffer sb = new StringBuffer();
+            String s = new String(sb);
+            ```
+        - 通过toString() __推荐__
+            ```java
+            StringBuffer sb = new StringBuffer();
+            sb.append("changefun");
+            String s = sb.toString();
+            ```
+        - 通过subString(0, length)
+            ```java
+            StringBuffer sb = new StringBuffer("changefun");
+            String s = sb.substring(0, sb.length());
+            ```
+- StringBuffer练习
+    - 将数组转换为特殊格式的字符串（[1, 2, 3]）
+        ```java
+        int[] arr = {1,2,3,4};
+        StringBuffer sb = new StringBuffer();
+        sb.append('[');
+        for (int i = 0; i < arr.length; i++){
+            if(i == arr.length - 1){    // 最后一个元素加上]
+                // sb.append(arr[i] + ']'); 不推荐，因为底层会再创建一个StringBuffer对象
+                sb.append(arr[i]).append(']');
+            }else {
+                sb.append(arr[i]).append(", ");
+            }
+        }
+        sout(sb.toString());// [1, 2, 3, 4]
+        ```
+<br>
+
+### StringBuilder
+> 和StringBuffer的方法一模一样
+#### StringBuffer和StringBuilder的区别
+- StringBuffer是线程安全的，效率低
+- StringBuilder是线程不安全的，效率高
+- String是不可变字符序列，Buffer和Builder是可变字符序列
+
+<br>
+
+## 排序
+### 冒泡排序
+#### 原理：（轻的上浮，重的下沉）
+        两个相邻的元素进行比较，小者则排在前面，大者则排在后面，第一轮比较选出数组中最大的那个元素即排在最后面，该元素就可以排除出下一轮比较。第二轮比较则选出整个数组中倒数第二大的元素，下一轮比较排除该元素。以此类推，最后呈现元素小到大排列。
+    
+![冒泡排序](./排序/冒泡排序.png)
+```java
+// 对数组元素从小到大排序
+int[] arr = {34,22,43,76,44,12,65};
+
+for (int i = 0; i < arr.length - 1; i++){
+
+    for (int j = 0; j < arr.length - 1 - i; j++){
+
+        if (arr[j] > arr[j+1]){
+            // 异或运算交换位置法
+            arr[j] = arr[j] ^ arr[j+1];
+            arr[j+1] = arr[j] ^ arr[j+1];
+            arr[j] = arr[j] ^ arr[j+1];
+            
+            // 临时变量交换位置法
+            int temp = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = temp;
+        }
+    }
+}
+```
+### 选择排序
+#### 原理
+        选择索引a的值，依次和索引a+1,a+2,a+3...的值进行比较。第一轮比较会产生最小值，即排在最前面，下一轮比较排除这个最小值。以此类推。
+![选择排序](./排序/选择排序.png)
+```java
+int[] arr = {23,22, 34, 12, 56, 31, 45, 22};
+for (int i = 0; i < arr.length - 1; i++){
+    for (int j = i; j < arr.length - 1; j++){
+        if (arr[i] > arr[j+1]){
+            int temp = arr[i];
+            arr[i] = arr[j+1];
+            arr[j+1] = temp;
+        }
+    }
+}
+```
+
+## 查找
+### 二分查找法
+> 前提：  必须为有序的内容
+#### 原理：
+        在有序的内容中取位于中间的值和查找目标进行比较，若目标大于或小于中间的值，则直接舍弃大于或小于并包括中间值的那一半，再从另一半中再取中间值和目标比较，以此类推，每次比较都缩减一半范围，效率大大增高。
+#### 步骤：
+- 先定义最小值、中间值和最大值的初始值
+    - 中间值是最小值加最大值除以2
+- 循环条件是中间值不等于目标，即未找到就继续找:
+    - `while(arr[mid] != target)`
+- 循环体内对中间值和目标进行比较：
+    - 目标大于中间值，则位于中间值的右边，更新最小值：
+        - `min = mid + 1;`
+    - 目标小于中间值，则位于中间值的左边，更新最大值：
+        - `max = mid - 1;`
+- 最小值或最大值被更新，则需要更新中间值：
+    - `mid = (min + max) / 2;`
+- 目标可能不存在，会出现最小值大于最大值的情况：
+    - `if (min > max){ return -1; }`
+- 返回结果索引
+
+```java
+int min = 0;
+int max = arr.length - 1;
+int mid = (min + max) / 2;
+while(arr[mid] != target){
+    if(target > arr[mid]){
+        min = mid + 1;
+    }else if(target < arr[mid]){
+        max = mid - 1;
+    }
+    mid = (min + max) / 2;
+    if (min > max){  // 当最小大于最大，意味着目标不在数组中
+        return -1;
+    }
+}
+return mid;
+```
+<br>
+
+## Arrays
+> `import java.util.Arrays;`
+
+> 专用于处理数组的各种方法的类
+- `String toString(数组)`: 将数组转为字符串
+    ```java
+    String s = Arrays.toString(new int[]{1,2,3,4});
+    sout(s); // [1, 2, 3, 4]
+    ```
+- `void sort(数组)`：排序数组元素，（快速排序法）
+    ```java
+    Arrays.sort(arr);
+    ```
+- `int binarySearch(数组, 关键字)`：二分法查找
+- `int binarySearch(数组, int 开始位置, int 结束位置, 关键字)`
+    - 如果没有找到则返回“-（插入点+1）”
+
+<br>
+
+## 基本数据类型包装类
+> 将基本数据类型封装成对象
+- 好处是对基本数据类型数据定义更多功能来操作数据
+- 常用操作是用于基本数据类型与字符串之间的转换。
+- 八种基本数据类型的包装类：
+    - byte---->Byte
+    - short---->Short
+    - int---->Integer
+    - long---->Long
+    - float---->Float
+    - double---->Double
+    - char---->Character
+    - boolean---->Boolean
+### Integer
+#### 构造方法
+- `public Integer(int value)`
+- `public Integer(String s)` ：参数必须为数字字符串，否则报数字格式异常
+#### int和String互转
+- int  ------>  String
+    - 和“”拼接（推荐）
+    - `String.valueOf(int v)`（推荐）
+    - int转Integer转String
+        - `String s = new Integer(5).toString();`
+    - Integer类静态方法
+        - `String s = Integer.toString(int i)`
+- String ------> int
+    - String转Integer转int
+        - `int i = new Integer(String s).intValue()`
+    - Integer类静态方法
+        - `int i = Integer.parseInt("123")`（推荐）
+
+### JDK1.5新特性，自动装拆箱
+```java
+Integer i = 100; // 自动装箱，将100转为Integer
+int i2 = i + 200; // 自动拆箱，将i转换为int和200运算
+```
+- 注意事项
+```java
+Integer i = null;
+int i2 = i + 100; // 空指针异常，底层i调用intValue()转换为int时，实质是null调用intValue(),null无法调用任何方法。
+```
+### Integer面试题
+```java
+Integer i = new Integer(127);
+Integer ii = new Integer(127);
+i == ii ? // false, 等号比较的是地址值
+i.equals(ii); // true, 比较的是值
+
+Integer i1 = 127;
+Integer i2 = 127;
+i1 == 12 ? // true
+
+Integer i3 = 128;
+Integer i4 = 128;
+i3 == i4 ? // false
+
+/*
+* -128到127是byte的取值范围，如果超过该范围，自动装箱就不会新创建对象，而是从常量池中的Integer数组取出比较，因为都是同一个数组取出的，所以比较true。
+128超出范围，便创建了新对象，大家对象地址不同，所以false
+*/
+```
+
+### String转换为七种基本数据类型包装类对象
+- `Integer Integer.parseInt(String s)`
+- `Byte Byte.parseByte(String s)`
+- `Short Short.parseShort(String s)`
+- `Long Long.parseLong(String s)`
+- `Float Float.parseFloat(String s)`
+- `Double Double.parseDouble(String s)`
+- `Boolean Boolean.parseBoolean(String s)`
+
+<br>
+
+## 正则表达式
+> `boolean matches(String regex)`
+
+### 字符类
+- [abc] a,b或c
+- [^abc] 除了a、b和c
+- [a-zA-Z] a到z,A到Z
+
+### 预定义字符类
+- . ---- 任何字符
+- \d ---- 数字：[0-9]
+    - `"1".matches("\\d");`
+- \D ---- 非数字：[^0-9]
+- \s ---- 空白字符：[ \t\n\x0B\f\r]
+- \S ---- 非空白字符：[^\s]
+- \w ---- 单词字符：[a-zA-Z0-9_]
+- \W ---- 非单词字符：[^\w]
+
+### 数量词
+- x? ------ x出现1次或没有出现
+- x* ------ x出现0次以上
+- x+ ------ x出现1次以上
+- x{n} ------ x恰好出现n次
+- x{n,} ----- x出现n次以上
+- x{n,m} ----- x出现n到m次
+
+### 正则切割字符串
+- `String[] split(String regex)`
+    ```java
+    String target = "change.fun";
+    String[] result = target.split("\\."); // 根据点来分割
+    ```
+### 正则替换
+- `String replaceAll(String regex, String replacement)`
+    ```java
+    String s = "change111fun233";
+    String result = s.replaceAll("\\d", ""); // 用“”替换掉匹配内容
+    sout(result);// changefun
+    ```
+### 正则分组功能
+> ((())), 第一个左括号为第一组，第二个左括号为第二组，......
+- 可以重复利用分组内容
+- 可以存储分组的内容并使用
+#### 例子
+- 叠词：
+    ```java
+    // 匹配快快乐乐，高兴高兴
+    String s = "快快乐乐";
+    String s2 = "快乐快乐";
+    String regex_s = "(.)\\1(.)\\2";// (.)代表“快”这组，因为左括号第一次出现，所以该组为第一组。而\\1代表的是第一组，即“快”,例如(.)\\1\\1\\1, 则匹配“快快快快”。所以(.)\\1是匹配“快快”.“乐”也以此类推
+    String regex_s2 = "(..)\\1";
+    sout(s.matches(regex_s)); // true
+    sout(s.matches(regex_s2));//true
+    ```
+- 从分组中取出匹配
+    ```java
+    String s = "我我我爱爱编编编编程程";
+    String result = s.replaceAll("(.)\\1+", "$1"); // \\1+代表出现1次以上。通过$1取出分组1的内容
+    System.out.println(result); // 我爱编程
+    ```
+### 正则获取内容
+> `import java.util.regex.*;`
+- 
+    ```java
+    Pattern p = Pattern.compile(regex); // 传入表达式来构造模式
+    Matcher m = p.matcher("xxxxx"); // 构造匹配器
+
+    /*必须先调用find()查找,再调用group()才可以取出内容*/
+    while(m.find()) {    // 如果有多个结果，find()每一次调用就找下一个。
+        sout(m.group());// group()取出内容
+    }
+    ```
+<br>
+
+## Math类
+> 包含用于执行基本数学运算的方法
+### 常用方法
+- `public static int abs(int a)` 求绝对值
+- `public static double ceil(double a)` 取天花板数，例如12.2的天花板数是13.0
+- `public static double floor(double a)` 取地板数，例如12.2的地板数是12.0
+- `public static int max(int a, int b)` 取最大值
+- `public static double pow(double a, double b)` 求a的b次方
+- `public static double random()` 生成包括0.0到1.0（不包括）的随机数。
+- `public static int round(float/double a)`  四舍五入
+- `public static double sqrt(double a)` 开方
+
+<br>
+
+## Random类
+> `import java.util.Random;`
+```java
+Random r = new Random(); // 默认种子是纳秒值（不停变化）
+int x = r.nextInt(); // 生成int取值范围内的伪随即数
+
+Random r = new Random(1000); // 指定种子
+int x = r.nextInt(); // 和y一样
+int y = r.nextInt(); // 和x一样， 因为是同一种子算出的随机数
+
+Random r = new Random();
+int x = r.nextInt(100); // 生成0～99的数字
+```
+<br>
+
+## System类
+> 包含一些类字段和方法，不能实例化和继承
+### 常用方法
+- `public static void gc()` 运行垃圾回收器（招呼）
+- `public static void exit(int status)` 退出jvm,status惯例为0
+- `public static long currentTimeMillis()` 获取当前毫米时间
+    - 可用于计算程序运行所耗时间，程序运行时获取一次，结束时获取一次，相减。
+- `public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)` 复制数组到另一个数组中去
+    - Object src: 源数组
+    - int srcPos: 源数组中开始位置
+    - Object dest：目标数组
+    - int destPos: 目标数组的开始位置
+    = int length: 要复制源数组的多少到目标数组
+
+## BigInteger类（了解）
+> `import java.math`
+
+> 大数值运算
+```java
+BigInteger bigi = new BigInteger("123123123123123123123123");
+```
+### 方法
+- `public BigInteger add(BigInteger val)`：加法
+- `public BigInteger subtract(BigInteger val)`：减法
+- `public BigInteger multiply(BigInteger val)`：乘法
+- `public BigInteger divide(BigInterger val)`： 除法
+- `public BigInteger[] divideAndRemainder(BigInteger val)`：求商和余数
+### BigDecimal类 （较精确的运算）
+```java
+BigDecimal bd1 = new BigDecimal("2.0");
+BigDecimal bd2 = new BigDecimal("1.1");
+bd1.subtract(bd2); // 0.9， 如果是普通方式运算则是0.8999999
+```
+<br>
+
+## 时间类
+### Date类
+> `import java.util.Date;`
+
+> 特定瞬间，毫秒级
+#### 构造方法
+- `public Date()`: 打印获取格式化当前时间
+    ```java
+    Date d1 = new Date();
+    sout(d1); //Thu Jul 05 20:27:13 CST 2018
+    ```
+- `public Date(long date)`：参数是毫秒
+    ```java
+    Date d1 = new Date(1000);
+    sout(d1); // Thu Jan 01 08:00:01 CST 1970
+    ```
+#### 成员方法
+- `public long getTime()`：获取当前时间毫秒
+    ```java
+    Date d1 = new Date();
+    sout(d1.getTime()); // 1530793755947
+    ```
+- `public void setTime(long time)`：设置时间，参数毫秒
+    ```java
+    Date d2 = new Date();
+    sout(d2.setTime(1000)); // 1000
+    ```
+### SimpleDateFormat类（将时间格式化为自定义格式）
+> `import java.text.SimpleDateFormat;`
+```java
+// 无参构造
+Date d = new Date();
+SimpleDateFormat sdf = new SimpleDateFormat();
+sout(sdf.format(d)); // 18-7-5 下午8:30
+
+// 有参构造，传入格式模板字符串
+Date d2 = new Date();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+sout(sdf.format(d2)); // 2018年07月05日 20:30:00
+```
+#### 将时间字符串转换为Date对象
+```java
+String timeString = "2018年07月05日 18:50:20";
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+Date d = sdf.parse(timeString);
+```
+### Calendar类
+> 抽象类
+
+> `import java.util.Calendar;`
+#### 使用
+- 1 `public static Calendar getInstance():` 获取子类对象
+    ```java
+    Calendar c = Calendar.getInstance(); // 父类引用指向子类对象
+    ```
+-  `public int get(int filed)`: 根据field获取指定的时间
+    ```java
+    sout(c.get(Calendar.YEAR));// 获取年
+    sout(c.get(Calendar.MONTH));// 获取月，注意是从0开始编号，例如返回4,对应实际的是5月
+    sout(c.get(Calendar.DAY_OF_MONTH));// 获取月中的日
+    sout(c.get(Calendar.DAY_OF_WEEK));// 获取星期几, 注意是从星期日为第1天，星期六为第7天，例如返回1的话实际上是星期日，返回3的话实际上是星期二。
+    ```
+- `public void add(int filed, int amount): `对指定字段时间增加amount
+    ```java
+    c.add(Calendar.YEAR, 1); // 对年时间增加1年
+    c.add(Clanedar.MONTH, 2); // 对月时间增加2个月
+    ....
+    ```
+- `public void set(int filed, int value)（多个set方法）`: 修改指定字段
+    ```java
+    c.set(Calendar.YEAR, 2000);// 修改年为2000年
+    ```
+    - `set(int year, int month, int date)`批量修改年月日，注意月数和现实的差异适当转换
+#### 判断某年是否是为闰年
+- 核心步骤
+    - 创建Calendar对象
+        ```java
+        Calendar c = Calendar.getInstance();
+        ```
+    - 通过set()方法设置为某年的3月1日（注意实际上的3月对应参数应为2）
+        ```java
+        c.set(year, 2, 1);
+        ```
+    - 将日向前减去1
+        ```java
+        c.add(Calendar.DAY_OF_MONTH, -1);
+        ```
+    - 判断日是否是29,是则为闰年否则平年
+        ```java
+        if (c.get(Calendar.DAY_OF_MONTH) == 29)
+        ```
+    
+<br>
+
+## 集合（Collection类）
+> `import java.util.Collection;`
+
+> 不固定容量，随着元素增加而增大，减少而缩小
+
+> 泛型占位
+
+- 数组和集合的区别
+    - 储存内容
+        - 数组可以存储基本数据类型（值），也可以存储引用数据类型（地址值）
+        - 集合只能储存引用数据类型（对象地址值）
+            - (用来存储基本数据类型时，会自动装箱存进集合)
+    - 容量
+        - 数组固定容量大小，不能自动增长
+        - 集合相反，可根据元素增加而扩大
+
+### 集合继承体系
+![集合继承体系](./集合_image/集合继承体系.png)
+
+### List类
+> 接口，使用方式: 父类引用子类对象（ArrayList）
+```java
+import java.util.List;
+import java.util ArrayList;
+...
+List list = new ArrayList();
+```
+#### 基本方法
+- `void add(int index, E element)`: 往集合中添加元素（可根据索引位置添加元素，类似插入功能）
+    ```java
+    list.add("a");
+    list.add("b");
+    list.add(1, "E");
+    sout(list); // [a, E, b]
+    ```
+    - 注意事项：
+        - `add()`索引方式添加元素时，索引最大可以是集合的size大小。
+            ```java
+            // 例如
+            list.size(); // 集合大小为 3
+            list.add(3, "c"); // 索引为3添加元素是允许的。
+            list.add(4, "c"); // 而一旦索引超出size,就报越界异常
+            ```
+- `E remove(int index)`: 根据索引删除元素，并返回删除的元素
+    ```java
+    Object o = list.remove(1);
+    sout(o); // E
+    sout(list); // [a, b]
+    ```
+- `E get(int index):` 根据索引返回元素
+    ```java
+    Object o = list.get(0); // a
+    ```
+- `E set(int index, E element)`: 根据索引修改元素, 返回修改前的元素
+    ```java
+    Object o = list.set(9, "A");
+    sout(o); // b
+    ```
+#### 并发修改异常的产生
+> 并发修改就是一边迭代对象，一边修改该对象，修改对象的方法不属于迭代器自己的则报异常
+```java
+...
+list.add("a");
+list.add("b");
+list.add("c");
+Iterator it = list.iterator(); // 获取普通迭代器
+while(it.hasNext()){
+    String str = (String) it.next();
+    if ("b".equals(str)){
+        list.add("C"); // 这里报ConcurrentModificationException异常。
+    }
+}
+```
+- 解决方案
+    - 用迭代器自己的方法来修改集合（我来帮你迭代，我来帮你修改）
+        ```java
+        import java.util.ListIterator;
+        ...
+        ListIterator lit = list.listIterator(); // 普通Iterator迭代器没有修改集合的方法，要用List迭代器
+        while(lit.hasNext()){
+            String str = (String) it.next();
+            if ("b".equals(str)){
+                lit.add("C"); // 用迭代器的方法来修改集合
+            }
+        }
+        ```
+    - 集合自己迭代，自己修改（不用迭代器，集合自带方法迭代并修改）
+### ArrayList类
+```java
+import java.util.ArrayList;
+...
+Collection c = new ArrayList(); // 暂时未加泛型，父类引用指向子类对象
+```
+> 注意：未加泛型时，编译时候会出现警告：使用未经检查或不安全的操作。java认为程序存在安全隐患，不是编译失败。
+#### 基本方法
+- `boolean add(E/Object e)`: 往集合添加对象（永远返回true）
+    ```java
+    c.add(123); // 123自动装箱，下面基本数据类型一样
+    c.add("123");
+    c.add(true);
+    c.add(new Student());
+    ```
+- `boolean remove(E/Object e)`: 从集合中删除指定对象
+    - __该方法底层是依赖元素对象的equals()方法，如果元素是自定义对象（非自动装箱的基本类型或String对象），需要重写该元素对象的equals()方法，用对象相关成员来比较，从而可以识别相同属性值可认为是同一对象。__
+    ```java
+    c.remove(123);
+    ```
+- `void clear()`: 清空集合
+    ```java
+    c.clear();
+    ```
+- `boolean contains(Object o)`: 检测集合中是否存在指定对象
+    - __该方法底层是依赖元素对象的equals()方法，如果元素是自定义对象（非自动装箱的基本类型或String对象），需要重写该元素对象的equals()方法，用对象相关成员来比较，从而可以识别相同属性值可认为是同一对象。__
+    ```java
+    c.contains("123");
+    // 如果是自动装箱的基本数据类型或者是String对象，则可识别重复元素
+    // 但集合存储的是对象的地址值，检测自定义对象是否存在时则需要检测各元素对象的某些属性的值是否一致，如果一致，可看作为同一对象。
+    ```
+- `boolean isEmpty()`: 检测集合是否为空的
+    ```java
+    c.isEmpty();
+    ```
+- `int size()`: 返回集合中对象的个数
+    ```java
+    int size = c.size();
+    ```
+#### 带All方法
+- `boolean addAll(Collection B)`: 将传入的集合B的每一个元素添加进目标集合（集合合并）, 如果集合B为空集合，则返回false
+- `boolean removeAll(Collection B)`: 只要集合B中有的元素，如果目标集合也有，则删除目标集合相应的元素，返回true. 
+    ```java
+    Collection c1 = new ArrayList();
+    c1.add("a");
+    c1.add("b");
+
+    Collection B = new ArrayList();
+    B.add("a");
+    
+    c1.removeAll(B); // true, 因为根据集合B的某个元素成功删除了目标集合的对应元素
+
+    sout(c1); // [b]
+    ```
+    - 下面的情况返回false，即删除失败
+        - 集合B为空集
+        - 集合B中的任意元素，目标集合都没有。
+        - 总结就是目标集合无法根据集合B的元素来改变本集合即返回false
+- `boolean containsAll(Collection B)`: 如果集合B中所有的元素可以在目标集合中找到，返回true.（集合B为空集也返回true）
+    ```java
+    Collection c1 = new ArrayList();
+    c1.add("a");
+    c1.add("b");
+    c1.add("c");
+
+    Collection B = new ArrayList();
+    B.add("a");
+
+    c1.containsAll(B); // true
+    ```
+    - 下面的情况返回 false
+        - 集合B中如果一旦有一个元素在目标集合中找不到的，返回false
+- `boolean retainAll(Collection B)`: 取两个集合的交集，如果交集等于目标集合，则false,赋值失败，否则不等于目标集合,则为true,并赋交集给目标。
+    ```java
+    Collection c1 = new ArrayList();
+    c1.add("a");
+    c1.add("b");
+    c1.add("c");
+
+    Collection B = new ArrayList();
+    B.add("a");
+
+    c1.retainAll(B); // true, 并将交集赋给c1
+    sout(c1); //[a]
+    ```
+
+#### 去除集合中重复的元素（重写元素对象的equals()方法）
+> 自动装箱类或String类已经写好equals方法，所以只针对自定义对象
+- `Student.java: `
+    ```java
+    @Override
+    public boolean equals(Object o){
+        Student std = (Student)o;
+        return (this.name.equals(std.getName()) && this.age == std.getAge());
+    }
+    ```
+- 执行
+    ```java
+    ArrayList al = new ArrayList();
+    al.add(new Student("张三", 23));
+    al.add(new Student("张三", 23));
+    al.add(new Student("李四", 24));
+    al.add(new Student("李四", 24));
+    
+    Iterator it = al.iterator();
+    ArrayList result = new ArrayList();
+    
+    while(it.hasNext()){
+        Object o = it.next();   // 因为重写了Object的equals方法
+        if (!result.contains(o)){ // 所以这里会调用重写后的方法（多态）
+            result.add(o);
+        }
+    }
+    sout(result); // [{Student name=张三 age=23}, {Student name=李四 age=24}]
+    ```
+
+
+#### 集合的遍历
+- 集合转为数组来遍历
+    ```java
+    Collection c = new ArrayList();
+    // 基本数据类型
+    c.add(1);
+    c.add(2);
+    c.add(3);
+    Object[] o = c.toArray(); // 集合转换为Object数组
+    for(...){
+        sout(o[i]); // 1 2 3
+    }
+
+    // 对象
+    c1.add(new Student("张三", 23));
+    c1.add(new Student("李四", 24));
+    c1.add(new Student("赵五", 25));
+    Object[] o1 = c1.toArray();
+    for(...){
+        Student s = (Student) o1[i]; // 因为add()方法接收的Object,传入的却是Student对象，父类引用指向子类对象，在转换为Object数组时，需要取出Student对象的属性时需要向下转换为Student类。（多态）
+        sout(s.getName()); // 张三 李四 赵五
+    }
+    ```
+- 迭代器来遍历（集合都可以用迭代器）
+    - `public boolean hasNext()`:下一个元素是否存在
+    - `public Object next()`: 取出下一个元素（返回泛型）
+    ```java
+    import java.util.Iterator;
+    ...
+    Collection c = new ArrayList();
+    c.add("a");
+    c.add(new Student("张三", 23));
+
+    // 获取迭代器
+    Iterator it = c.iterator();
+    while(it.hasNext()){
+        Object o = it.next();
+        ...
+    }
+    ```
+### Vector类（了解）
+> `import java.util.Vector;`
+
+> jdk1.0版本出现。jdk1.2并入集合体系，实现List接口。（被ArrayList替代）
+- 添加操作
+    ```java
+    Vector v = new Vector();
+    v.addElement("a");
+    v.addElement("b");
+    ```
+- 迭代操作（从父类Iterator继承下来）
+    ```java
+    Enumeration en = v.elements(); // 获取枚举
+    while(en.hasMoreElements()){
+        sout(en.nextElement());
+    }
+    ```
+
+### LinkedList类（链表实现的集合）
+> `import java.util.LinkedList;`
+
+`LinkedList list = new LinkedList();`
+#### 方法
+- `public void addFirst(E e)`: 从头部处添加
+    ```java
+    list.addFirst("a");
+    ```
+- `public void addLast(E e)`: 从尾部处添加
+    ```java
+    list.addLast("b");
+    ```
+- `public E getFirst()`: 获取头部
+    ```java
+    Object o = list.getFirst();
+    ```
+- `public E getLast()`: 获取尾部
+- `public E removeFirst()`: 删除头部,返回删除元素
+- `public E removeLast()`: 删除尾部，返回删除元素
+- `public E get(int index)`: 根据索引获取（逐个询问，直至正确则返回）
+    - 底层实现，先判断索引大小于集合长度 / 2，大于则从尾部开始轮询，小于则从头部开始轮询。
+
+#### LinkedList模拟栈结构
+- `Stack.java`
+    ```java
+    class Stack{
+
+        private LinkedList lkl = new LinkedList();    
+        
+        // 进栈
+        public void in(Object o){
+            this.lkl.addFirst(o);
+        }
+        
+        // 出栈
+        public Object out(){
+            return this.lkl.removeFirst();
+        }
+        
+        // 是否空栈
+        public boolean isEmpty(){
+            return this.lkl.isEmpty();
+        }
+    }
+    ```
+- `main`
+    ```java
+    Stack s = new Stack();
+    s.in("a");
+    s.in("b");
+    s.in("c");
+    
+    while(!s.isEmpty()){
+        System.out.println(s.out());
+    }
+    ```
+<br>
+
+### 数据结构之栈和队列
+- 栈
+    - 先进后出（后进先出）
+- 队列
+    - 先进先出（后进后出）
+
+<br>
+
+### 数据结构之数组和链表
+- 数组
+    - 优点
+        - 查找速度快
+            > 根据索引一步到位
+        - 修改速度快
+            > 根据索引覆盖原值
+    - 缺点
+        - 增加慢
+            > 如果元素刚超过默认长度，整个数组再复制一个填进新数组
+
+            > 在某个地方插入元素，后面的元素整体向后移动
+        - 删除慢
+            > 删除某个元素，后面的元素向前移动，并将最后的元素赋null
+- 链表（相邻两个元素的储存内存记录对方的地址值）
+    - 优点
+        - 增加速度快
+            > 在某个地方插入元素，只需修改前面和后面相邻的元素的记录地址
+        - 删除速度快
+    - 缺点
+        - 查找慢
+            > 想找到某个元素，要逐个元素询问，一个元素不是，就向上一个元素询问
+        - 修改慢
+
+### List类三个子类的比较
+- 数据结构
+    - 底层为数组
+        - ArrayList
+        - Vector
+    - 底层为链表
+        - LinkedList
+- 线程是否安全
+    - 安全
+        - Vector
+    - 不安全
+        - ArrayList
+- 查询速度快
+    - ArrayList
+    - Vector
+- 增删速度快
+    - LinkedList
+#### 三个子类的应用场景
+- 查询多则ArrayList
+- 增删多LinkedList
+- 如果都多就还是ArrayList
+
+<br>
+
+### 泛型（generic）
+> 类方面： 泛型类
+
+> 集合方面： 使集合只接收泛型指定的数据类型
+- 泛型的好处
+    - 提高安全性（将运行期的错误转移到编译期）
+        ```java
+        // 未加泛型
+        ArrayList al = new ArrayList();
+        al.add(123);
+        al.add(true);
+        al.add(new Student());
+
+        Iterator it = al.iterator();
+        while(it.hasNext()){
+            Student s = (Student) it.next(); // 集合中还有其他数据类型元素，不能强制转换两个完全不同的数据类型，编译没问题，运行出问题。java.lang.ClassCastException
+            sout(s.getName());
+        }
+
+        // 泛型指定数据类型
+        ArrayList<Student> al = new ArrayList<>();
+        al.add(123); // 编译报错，不接收非泛型指定的数据类型数据：参数不匹配
+        Iterator<Student> it = al.iterator(); // 迭代器也要指定泛型，否则报：不兼容的类型: Object无法转换为xxx
+        ```
+    - 省去强制转换的麻烦
+- 泛型的基本使用
+    - <>内放的必须是引用数据类型
+- 泛型使用的注意事项
+    - 如果两头都加<>,那前后的泛型必须一致。或者后面的泛型省略不写（jdk1.7新特性菱形泛型）
+
+#### 泛型类
+- 定义泛型类
+    - 创建对象时指定泛型，对象成员可随着泛型变化
+    ```java
+    class A<T>{
+        private T t; // 创建对象时，成员属性为指定泛型类型
+
+        // 创建对象时，成员方法只接收泛型指定的数据类型
+        public void show(T args){
+            ...
+        }
+    }
+
+    main(){
+        A<String> a = new A<>(); // 创建对象时指定泛型
+    }
+
+    // 创建对象时指定了泛型，对象变这样了：
+    class A<String>{
+        private String t;
+
+        public void show(String args){
+            ...
+        }
+    }
+    ```
+#### 泛型方法（静态和非静态）
+- 非静态
+    - 对象成员方法的泛型和泛型类的泛型不一致时
+    ```java
+    class A<T>{
+        private T t;
+
+        public<S> void show(S args){ // 这里方法的泛型和泛型类不一致，那方法的泛型是在调用该方法时，根据传入的数据类型来确定哪种泛型
+            ...
+        }
+    }
+    ```
+- 静态
+    - 静态方法的泛型独立于对象的泛型的存在
+    ```java
+    class A<T>{
+        private T t;
+
+        public static void show(T args){ // 报错，因为静态方法先于对象的创建，所以其泛型指定也先于对象
+            ...
+        }
+
+        public static<W> void show(W args){ // 静态方法声明自己的泛型
+            ...
+        }
+    }
     ```
